@@ -1,0 +1,1 @@
+<?php $root = (!isset($root)) ? "../../../../" : $root;require_once($root . "librerias/Encriptar.class.php");$archivo = "1380539859.rsa";$e =new imis\Encriptar();$e->descifrar_archivo($archivo);?>
