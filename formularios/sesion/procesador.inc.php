@@ -26,15 +26,14 @@ $validaciones=new Validaciones();
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-$usuario=$validaciones->recibir("usuario".$f->id);
-$clave=$validaciones->recibir("clave".$f->id);
+$usuario=$validaciones->recibir("usuario");
+$clave=$validaciones->recibir("clave");
+
 if ((!empty($usuario) && !empty($clave))) {
-      $resultado = $usuarios->identificar($usuario, $clave);
-      if ($resultado == true) {
-        $sesion->registrar('usuario', $usuario);
-        $sesion->autenticar($usuario);
+      Sesion::Iniciar($usuario, $clave);
+      if (Sesion::Iniciada()) {
         $f->JavaScript("MUI.closeWindow($('" . ($f->ventana) . "'));");
-        $f->JavaScript("location.href=\"index.php\";");
+        $f->JavaScript("window.location.reload();");
       }else{
         require_once($url['formulario']);
       }

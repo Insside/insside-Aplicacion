@@ -1,7 +1,8 @@
 <?php
 $root = (!isset($root)) ? "../../../" : $root;
-if(!class_exists('Usuarios')) {require_once($root."modulos/usuarios/librerias/Usuarios.class.php");}
 require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
+
+
 /*
  * Copyright (c) 2015, Alexis
  * All rights reserved.

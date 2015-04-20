@@ -38,18 +38,12 @@ $ciudades = new Ciudades();
 $sectores = new Sectores();
 $validaciones = new Validaciones();
 /** Valores * */
-$valores['usuario'] = $validaciones->recibir("_usuario");
-$valores['empleado'] = $validaciones->recibir("_empleado");
-$valores['alias'] = $validaciones->recibir("_alias");
-$valores['clave'] = $validaciones->recibir("_clave");
-$valores['equipo'] = $validaciones->recibir("_equipo");
-$valores['fecha'] = $validaciones->recibir("_fecha");
-$valores['hora'] = $validaciones->recibir("_hora");
-$valores['creador'] = $validaciones->recibir("_creador");
+$valores['usuario'] = $validaciones->recibir("usuario");
+$valores['clave'] ="";
 /** Campos * */
 $f->campos['logo'] = "<img src=\"imagenes/logo-imis-300x168.png\"/>";
-$f->campos['usuario'] = $f->text("usuario".$f->id, $valores['usuario'], "15", "required usuario", false);
-$f->campos['clave'] = $f->password("clave".$f->id, $valores['clave'], "64", "required clave", false);
+$f->campos['usuario'] = $f->text("usuario", $valores['usuario'], "15", "required usuario", false);
+$f->campos['clave'] = $f->password("clave", $valores['clave'], "64", "required clave", false);
 $f->campos['ayuda'] = $f->button("ayuda" . $f->id, "button", "Ayuda");
 $f->campos['cancelar'] = $f->button("cancelar" . $f->id, "button", "Cancelar");
 $f->campos['continuar'] = $f->button("continuar" . $f->id, "submit", "Continuar");

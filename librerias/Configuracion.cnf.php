@@ -2,7 +2,11 @@
 $root = (!isset($root)) ? "../../../" : $root;
 require_once($root . "librerias/Configuracion.cnf.php");
 Sesion::init();
-// Librerias Modulo Aplicación
+/** Librerias Complementarias **/
+if(!class_exists('Fechas')) {require_once($root."librerias/Fechas.class.php");}
+if(!class_exists('Usuarios')) {require_once($root."modulos/usuarios/librerias/Usuarios.class.php");}
+if(!class_exists('Permisos')) {require_once($root."modulos/usuarios/librerias/Permisos.class.php");}
+/** Librerias del Modulo **/
 $directorio=$root."modulos/aplicacion/librerias/";
 if(!class_exists('Aplicacion_Usuarios')) {require_once($directorio."Aplicacion_Usuarios.class.php");}
 if(!class_exists('Aplicacion_Permisos')) {require_once($directorio."Aplicacion_Permisos.class.php");}

@@ -33,13 +33,9 @@ require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
  * @author Alexis
  */
 class Aplicacion_Modulos {
-
-//put your code here
-  var $sesion;
   var $fechas;
 
   function Aplicacion_Modulos() {
-    $this->sesion = new Sesion();
     $this->fechas = new Fechas();
   }
 
@@ -52,6 +48,7 @@ class Aplicacion_Modulos {
   }
 
   function crear($modulo, $nombre, $titulo, $descripcion) {
+    $fechas=new Fechas();
     $db = new MySQL();
     $sql = "SELECT * FROM `aplicacion_modulos` WHERE `modulo` =" . $modulo . ";";
     $consulta = $db->sql_query($sql);
@@ -62,9 +59,9 @@ class Aplicacion_Modulos {
       $sql.="`nombre` = '" . $nombre . "', ";
       $sql.="`titulo` = '" . $titulo . "', ";
       $sql.="`descripcion` = '" . $descripcion . "', ";
-      $sql.="`fecha` = '" . $this->fechas->hoy() . "', ";
-      $sql.="`hora` = '" . $this->fechas->ahora() . "', ";
-      $sql.="`creador` = '" . ($this->sesion->consultar("usuario")) . "';";
+      $sql.="`fecha` = '" . $fechas->hoy(). "', ";
+      $sql.="`hora` = '" . $fechas->ahora(). "', ";
+      $sql.="`creador` = '" . (Sesion::consultar("usuario")) . "';";
       $consulta = $db->sql_query($sql);
     } else {
 
