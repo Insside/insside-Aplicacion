@@ -1,7 +1,5 @@
 <?php
-
 $root = (!isset($root)) ? "../../../" : $root;
-require_once($root . "librerias/Modulos.class.php");
 require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
 
 class Aplicacion {
@@ -14,9 +12,9 @@ class Aplicacion {
   function Aplicacion() {
     $this->sesion = new Sesion();
     $this->fechas = new Fechas();
-    $this->modulos = new Modulos();
+    $this->modulos = new Aplicacion_Modulos();
     $permisos = new Permisos();
-    $modulos = new Modulos();
+    $modulos = new Aplicacion_Modulos();
     $modulo = $modulos->crear("001", "Aplicación", "Modulo Control Del Aplicativo", "");
     $permisos->permiso_crear($modulo, "APLICACION-MODULO-A", "Acceso Modulo Aplicación", "Permite ver y acceder al modulo Aplicación.", "0000000000");
     $permisos->permiso_crear($modulo, "APLICACION-FUNCIONES-A", "Acceder Componente Funciones", "Permite acceder al componente funciones, para el modulo aplicacion.", "0000000000");

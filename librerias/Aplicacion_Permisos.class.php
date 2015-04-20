@@ -35,4 +35,7 @@ require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
  */
 class Aplicacion_Permisos extends Permisos{
   //put your code here
+  function Aplicacion_Permisos(){
+    
+  }
 }
