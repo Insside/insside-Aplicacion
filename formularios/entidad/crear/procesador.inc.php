@@ -43,12 +43,18 @@ $codigo = "&lt;?php\n";
 $codigo.= "class ".$tabla."{\n";
 $codigo.= "\t\tfunction crear(\$datos){\n";
 $codigo.="\t\t\t\$db = new MySQL();\n";
-$codigo.="\t\t\t\$sql =\"INSERT INTO `".$tabla."` SET `".$campos[0]['Field']."`='\".\$datos['".$campos[0]['Field']."'].\"';\";\n";
+$codigo.="\t\t\t\$sql =\"INSERT INTO `".$tabla."` SET \"";
+for($i=0;$i<count($campos);$i++){
+  $field=$campos[$i]['Field'];
+  $codigo.="\n\t\t\t\t.\"";
+  $codigo.="`".$field."`='\".\$datos['".$field."'].\"'";
+  if(isset($campos[$i+1]['Field'])){$codigo.=",";}else{}
+  
+  $codigo.="\"";
+}
+$codigo.="\n\t\t\t\t.\";\";\n";
 $codigo.="\t\t\t\$db->sql_query(\$sql);\n";
 $codigo.="\t\t\t\$db->sql_close();\n";
-for($i=1;$i<count($campos);$i++){
-  $codigo.="\t\t\t\$this->actualizar(\$datos['".$campos[0]['Field']."'],'".$campos[$i]['Field']."',\$datos['".$campos[$i]['Field']."']);\n";
-}
 $codigo.= "\t\t}\n\n";
 
 $codigo.= "\t\tfunction actualizar(\$".$campos[0]['Field'].",\$campo,\$valor){\n";

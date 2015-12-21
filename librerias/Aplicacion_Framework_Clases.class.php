@@ -1,7 +1,9 @@
 <?php
+
 $root = (!isset($root)) ? "../../../" : $root;
-require_once($root . "librerias/Configuracion.cnf.php");
-require_once($root . "modulos/aplicacion/librerias/Compactador.class.php");
+require_once($root . "librerias/Fechas.class.php");
+require_once($root . "librerias/MySQL.class.php");
+
 /*
  * Copyright (c) 2014, Alexis
  * All rights reserved.
@@ -33,74 +35,102 @@ require_once($root . "modulos/aplicacion/librerias/Compactador.class.php");
  *
  * @author Alexis
  */
-class Aplicacion_Framework_Clases {
-		function crear($datos){
-			$db = new MySQL();
-			$sql ="INSERT INTO `aplicacion_framework_clases` SET `clase`='".$datos['clase']."';";
-			$db->sql_query($sql);
-			$db->sql_close();
-       $this->actualizar($datos['implements'],'nombre',$datos['implements']);
-       $this->actualizar($datos['extends'],'nombre',$datos['extends']);
-			$this->actualizar($datos['clase'],'nombre',$datos['nombre']);
-			$this->actualizar($datos['clase'],'descripcion',$datos['descripcion']);
-			$this->actualizar($datos['clase'],'fecha',$datos['fecha']);
-			$this->actualizar($datos['clase'],'hora',$datos['hora']);
-			$this->actualizar($datos['clase'],'creador',$datos['creador']);
-		}
-		function actualizar($clase,$campo,$valor){
-			$db = new MySQL();
-			$sql ="UPDATE `aplicacion_framework_clases` "
-				 ."SET `".$campo ."`='".$valor . "' "
-				 ."WHERE `clase`='".$clase."';";
-			$db->sql_query($sql);
-			$db->sql_close();
-		}
-		function eliminar($clase){
-			$db = new MySQL();
-			$sql ="DELETE FROM `aplicacion_framework_clases` "
-				 ."WHERE `clase`='".$clase."';";
-			$db->sql_query($sql);
-			$db->sql_close();
-		}
-		function consultar($clase){
-			$db = new MySQL();
-			$sql ="SELECT * FROM `aplicacion_framework_clases` "
-				 ."WHERE `clase`='".$clase."';";
-			$consulta=$db->sql_query($sql);
-			$fila =$db->sql_fetchrow($consulta);
-			$db->sql_close();
-			return($fila);
-		}
-    function codensador($clase){
-      $clase=$this->consultar($clase);
-      	$db = new MySQL();
-			$sql ="SELECT * FROM `aplicacion_framework_funciones` WHERE `clase` ='".$clase['clase']."' ORDER BY `nombre`;";
-			$consulta=$db->sql_query($sql);
-       $js="var ".$clase['nombre']."=new Class({\n";
-       if(!empty($clase['implements'])){$js.="Implements:[".$clase['implements']."],\n";}
-       if(!empty($clase['extends'])){$js.="Extends: ".$clase['extends'].",\n";}
-			while($fila =$db->sql_fetchrow($consulta)){
-          if($fila['nombre']=="options"){
-            $js.="".$fila['nombre'].":{\n";
-          }else{
-            $js.="".$fila['nombre'].":function(".$fila['parametros']."){\n";
-          }
+if (!class_exists('Aplicacion_Framework_Clases')) {
+
+  class Aplicacion_Framework_Clases {
+
+    function crear($datos) {
+      $db = new MySQL();
+      $sql = "INSERT INTO `aplicacion_framework_clases` SET `clase`='" . $datos['clase'] . "';";
+      $db->sql_query($sql);
+      $db->sql_close();
+      $this->actualizar($datos['clase'], 'implements', $datos['implements']);
+      $this->actualizar($datos['clase'], 'extends', $datos['extends']);
+      $this->actualizar($datos['clase'], 'nombre', $datos['nombre']);
+      $this->actualizar($datos['clase'], 'descripcion', $datos['descripcion']);
+      $this->actualizar($datos['clase'], 'fecha', $datos['fecha']);
+      $this->actualizar($datos['clase'], 'hora', $datos['hora']);
+      $this->actualizar($datos['clase'], 'creador', $datos['creador']);
+      return($sql);
+    }
+
+    function actualizar($clase, $campo, $valor) {
+      $db = new MySQL();
+      $sql = "UPDATE `aplicacion_framework_clases` "
+              . "SET `" . $campo . "`='" . $valor . "' "
+              . "WHERE `clase`='" . $clase . "';";
+      $db->sql_query($sql);
+      $db->sql_close();
+    }
+
+    function eliminar($clase) {
+      $db = new MySQL();
+      $sql = "DELETE FROM `aplicacion_framework_clases` "
+              . "WHERE `clase`='" . $clase . "';";
+      $db->sql_query($sql);
+      $db->sql_close();
+    }
+
+    function consultar($clase) {
+      $db = new MySQL();
+      $sql = "SELECT * FROM `aplicacion_framework_clases` "
+              . "WHERE `clase`='" . $clase . "';";
+      $consulta = $db->sql_query($sql);
+      $fila = $db->sql_fetchrow($consulta);
+      $db->sql_close();
+      return($fila);
+    }
+
+    function codensador($clase) {
+      $clase = $this->consultar($clase);
+      $db = new MySQL();
+      $sql = "SELECT * FROM `aplicacion_framework_funciones` WHERE `clase` ='" . $clase['clase'] . "' ORDER BY `nombre`;";
+      $consulta = $db->sql_query($sql);
+      $js = "var " . $clase['nombre'] . "=new Class({\n";
+      if (!empty($clase['implements'])) {
+        $js.="Implements:[" . $clase['implements'] . "],\n";
+      }
+      if (!empty($clase['extends'])) {
+        $js.="Extends: " . $clase['extends'] . ",\n";
+      }
+      while ($fila = $db->sql_fetchrow($consulta)) {
+        if ($fila['nombre'] == "options") {
+          $js.="" . $fila['nombre'] . ":{\n";
+        } else {
+          $js.="" . $fila['nombre'] . ":function(" . $fila['parametros'] . "){\n";
+        }
 //          $js.="try{\n";
-                  $sql_codigo="SELECT * FROM `aplicacion_framework_codigos`  WHERE `funcion`='".$fila['funcion']."' ORDER BY `codigo` DESC;";
-                  $consulta_codigo=$db->sql_query($sql_codigo);
-                  $fila_codigo =$db->sql_fetchrow($consulta_codigo);
-                  $js.=(urldecode($fila_codigo['contenido']));
+        $sql_codigo = "SELECT * FROM `aplicacion_framework_codigos`  WHERE `funcion`='" . $fila['funcion'] . "' ORDER BY `codigo` DESC;";
+        $consulta_codigo = $db->sql_query($sql_codigo);
+        $fila_codigo = $db->sql_fetchrow($consulta_codigo);
+        $js.=(urldecode($fila_codigo['contenido']));
 //          $js.="}catch(error){\n";
 //          $js.="MUI.Aplicacion_Framework_Advertencia('<b><u>'+error.message+'</u>: </b>'+error.stack);";
 //          $js.="}finally{\n";
 //          $js.="}\n";
-          $js.="\n},\n";
-       }
-       $js.="});\n";
-			$db->sql_close();
-			//return(Compactador::minify($js));
-        return($js);
+        $js.="\n},\n";
+      }
+      $js.="});\n";
+      $db->sql_close();
+      //return(Compactador::minify($js));
+      return($js);
     }
-	}
 
- ?>
+    /**
+     * Retorna el numero total de clases existentes.
+     * @param type $clase
+     * @return type
+     */
+    function conteo() {
+      $db = new MySQL();
+      $sql = "SELECT COUNT(*) AS  `conteo` FROM `aplicacion_framework_clases`;";
+      $consulta = $db->sql_query($sql);
+      $fila = $db->sql_fetchrow($consulta);
+      $db->sql_close();
+      return($fila["conteo"]);
+    }
+
+  }
+
+}
+?>

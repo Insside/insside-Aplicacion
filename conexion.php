@@ -30,5 +30,3 @@ require_once($root . "librerias/Configuracion.cnf.php");
 $sesion = new Sesion();
 echo(date("H:i:s"));
 ?>
-
-

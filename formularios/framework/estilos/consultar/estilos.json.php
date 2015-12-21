@@ -1,66 +1,97 @@
 <?php
 $root = (!isset($root)) ? "../../../../../../" : $root;
-require_once($root."modulos/solicitudes/librerias/Configuracion.cnf.php");
-$sesion = new Sesion();
-$modulos = new Modulos();
-$automatizaciones = new Automatizaciones();
-$usuarios = new Usuarios();
-$cadenas = new Cadenas();
+require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
 $validaciones=new Validaciones();
+header('Content-Type: application/json');
+$afe=new Aplicacion_Framework_Estilos();
+/*
+ * Copyright (c) 2015, Alexis
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+
+$usuario = Sesion::usuario();
+
 /** Variables Recibidas * */
-$transaccion = $validaciones->recibir('transaccion');
-$estado = $validaciones->recibir('estado');
-$buscar = $validaciones->recibir('buscar');
-$clase=$validaciones->recibir('clase');
+$v["clase"]= $validaciones->recibir("clase");
+$v['criterio'] = $validaciones->recibir("criterio");
+$v['valor'] = $validaciones->recibir("valor");
+$v['inicio'] = $validaciones->recibir("inicio");
+$v['fin'] = $validaciones->recibir("fin");
+$v['transaccion'] = $validaciones->recibir("transaccion");
+$v['page'] = $validaciones->recibir("page");
+$v['perpage'] = $validaciones->recibir("perpage");
+/** Verificaciones * */
+/**
+ * Se evalua el comportamiento en caso de no recibir el periodo inicial y final de la consulta para lo 
+ * cual se presuponen la fecha de la primera solicitud y la ultima que se hallan registrado por
+ * el usuario activo en el sistema de atencion de solicitudes.
+ */
+$v['inicio'] = empty($v['inicio']) ? "0000-00-00" : $v['inicio'];
+$v['fin'] = empty($v['fin']) ? "2018-01-01" : $v['fin'];
+
 /* * Variables Definidas * */
-$tabla = "aplicacion_framework_estilos";
-
-$page = 1;
-$perpage = 50;
-$n = 0;
-$pagination = false;
-
-if (isset($_REQUEST["page"])) {
+if (!empty($v['page'])) {
   $pagination = true;
-  $page = intval($_REQUEST["page"]);
-  $perpage = intval($_REQUEST["perpage"]);
+  $page = intval($v['page']);
+  $perpage = intval($v['perpage']);
   $n = ( $page - 1 ) * $perpage;
-}
-
-if (!empty($buscar)) {
-  $buscar = "WHERE(" . $automatizaciones->like($tabla, $buscar) . ")";
-} elseif (!empty($estado)) {
-  $buscar = "WHERE(`estado`='" . strtoupper($estado) . "' AND `clase`='" .$clase. "')";
+  $limite = "LIMIT $n, $perpage";
 } else {
-  $buscar ="WHERE(`clase`='" .$clase. "')";
+  $pagination = false;
+  $page = 1;
+  $perpage = 20;
+  $n = 0;
+  $limite = "LIMIT $n, $perpage";
 }
-
-
+/**
+ * En este segmento se evalua si se esta recibiendo o no un criterio y un valor a buscar segun el 
+ * criterio adicionalmente se contempla la propiedad y responsabilidad del usuario activo sobre los 
+ * registros visualizados. En terminos de criterios existe un criterio especial que se utiliza para
+ * identificar una peticion en la que solo se desean ver aquellas solicitudes que se encuentran 
+ * pendientes de respuesta, ese criterio es "estado", donde no existe ningun campo denominado 
+ * estado pero se usa para definir si los registros se muestran como se hace habitualmente o 
+ * solamente aquellos que correspondan a peticiones a la espera de respuesta.
+ * */
+if (!empty($v['criterio']) && !empty($v['valor']) && $v['criterio'] != "estado") {
+  $buscar = "WHERE(`clase`='".$v["clase"]."' AND (`fecha` BETWEEN '" . $v['inicio'] . "' AND '" . $v['fin'] . "')AND(`" . $v['criterio'] . "` LIKE '%" . $v['valor'] . "%'))";
+} else {
+  $buscar = "WHERE(`clase`='".$v["clase"]."' AND `fecha` BETWEEN '" . $v['inicio'] . "' AND '" . $v['fin'] . "')";
+}
 
 $db = new MySQL();
-$sql['sql'] = "SELECT * FROM `" . $tabla . "` " . $buscar . " ;";
-//echo($sql['sql']);
-$consulta = $db->sql_query($sql['sql']);
-$fila = $db->sql_fetchrow($consulta);
-$total = $db->sql_numrows();
+$consulta = $db->sql_query("SELECT * FROM `aplicacion_framework_estilos` " . $buscar . " ORDER BY `clase`,`subclase`,`etiqueta` DESC;");
+$total = $db->sql_numrows($consulta);
+$sql = "SELECT * FROM `aplicacion_framework_estilos` " . $buscar . " ORDER BY `clase`,`subclase`,`etiqueta` DESC " . $limite;
 
-$limit = "";
-
-if ($pagination) {
-  $limit = "LIMIT $n, $perpage";
-}
-$sql = ("SELECT * FROM `" . $tabla . "` " . $buscar . " ORDER BY `nombre` ASC " . $limit);
 $consulta = $db->sql_query($sql);
-$json= array();
-$dato= array();
+$ret = array();
 while ($fila = $db->sql_fetchrow($consulta)) {
-  $dato["estilo"]=  $fila['estilo'];
-  $dato["clase"]=  $fila['clase'];
-  $dato["subclase"]=  $fila['subclase'];
-  $dato["fecha"]=$fila["fecha"];
-  $dato["hora"]=$fila["hora"];
-  array_push($json, $dato);
+  $fila["detalles"]=$afe->nombre($fila);
+  array_push($ret, $fila);
 }
+
 $db->sql_close();
-echo json_encode(array("page" => $page, "total" => $total,"sql" => $sql, "data" => $json));
+echo json_encode(array("sql" => $sql, "uid" => $usuario['usuario'], "page" => $page, "total" => $total, "data" => $ret));
 ?>

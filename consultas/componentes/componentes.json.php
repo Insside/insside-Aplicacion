@@ -2,7 +2,7 @@
 $root=(!isset($root))?"../../../../":$root;
 require_once($root."modulos/aplicacion/librerias/Configuracion.cnf.php");
 $sesion = new Sesion();
-$modulos = new Modulos();
+$modulos = new Aplicacion_Modulos();
 $automatizaciones = new Automatizaciones();
 $usuarios = new Usuarios();
 $cadenas = new Cadenas();

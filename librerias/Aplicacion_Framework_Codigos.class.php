@@ -95,4 +95,21 @@ class Aplicacion_Framework_Codigos {
 			$db->sql_close();
 			return(urldecode($fila['contenido']));
      }
+     
+         /**
+     * Retorna el numero total de funciones asociado a una clase especifica.
+     * @param type $clase
+     * @return type
+     */
+    function conteo($funcion) {
+      $db = new MySQL();
+      $sql = "SELECT COUNT(*) AS  `conteo` FROM `aplicacion_framework_codigos` "
+              . "WHERE `funcion`='" . $funcion . "';";
+      $consulta = $db->sql_query($sql);
+      $fila = $db->sql_fetchrow($consulta);
+      $db->sql_close();
+      return($fila["conteo"]);
+    }
+     
+     
 	}

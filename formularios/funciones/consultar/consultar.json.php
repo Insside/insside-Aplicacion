@@ -1,11 +1,9 @@
 <?php
 $root = (!isset($root)) ? "../../../../../" : $root;
-require_once($root . "librerias/Sesion.class.php");
-require_once($root . "librerias/Modulos.class.php");
 require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
 /* * Variables Definidas * */
 $sesion = new Sesion();
-$modulos = new Modulos();
+$modulos = new Aplicacion_Modulos();
 $automatizaciones = new Automatizaciones();
 $usuarios = new Usuarios();
 $cadenas = new Cadenas();
@@ -49,7 +47,7 @@ if ($pagination) {
   $limit = "LIMIT $n, $perpage";
 }
 
-$consulta = $db->sql_query("SELECT * FROM `" . $tabla . "` " . $buscar . " ORDER BY  `modulo` ASC,`nombre` ASC " . $limit);
+$consulta = $db->sql_query("SELECT * FROM `" . $tabla . "` " . $buscar . " ORDER BY  `modificacion` DESC " . $limit);
 
 $ret = array();
 $funcion = array();
@@ -58,9 +56,9 @@ while ($fila = $db->sql_fetchrow($consulta)) {
   $creador = $usuarios->consultar($fila['creador']);
   $funcion['nombre'] = ((!empty($modulo['nombre'])) ? $modulo['nombre'] . "_" . $fila["nombre"] : $fila["nombre"]);
   $fila['modulo'] = $modulo['nombre'];
-  $fila['funcion'] = "<div class=\"codigo\"><a href=\"#\" onClick=\"MUI.Aplicacion_Funcion_Consultar('" . $fila['funcion'] . "');\">" . $fila['funcion'] . "</a></div>";
-  $fila['detalle'] = "<b>" . $funcion['nombre'] . "</b><i>(" . $fila['parametros'] . ")</i>: ".$fila['descripcion'];
+    $fila['detalles'] = "<b>" . $funcion['nombre'] . "</b><i>(" . $fila['parametros'] . ")</i>: ".$fila['descripcion'];
   $fila['creador'] = "&nbsp;<a href=\"#\" onClick=\"MUI.Notificacion('" . $creador['alias'] . "');\"><img src=\"imagenes/16x16/usuario-16x16.png\"></a>";
+  
   array_push($ret, $fila);
 }
 $db->sql_close();

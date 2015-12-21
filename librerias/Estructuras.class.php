@@ -21,7 +21,7 @@ class Estructuras {
     $html = ('<select name="' . $id . '"id="' . $id . '" class="' . $class . '" >');
     $conteo = 0;
     while ($fila = $db->sql_fetchrow($consulta)) {
-      $html.=('<option value="' . $fila['Tables_in_agb'] . '"' . (($selected == $fila['Tables_in_agb']) ? "selected" : "") . '>' . $fila['Tables_in_agb'] . '</option>');
+      $html.=('<option value="' . $fila['Tables_in_'.$db->db()] . '"' . (($selected == $fila['Tables_in_'.$db->db()]) ? "selected" : "") . '>' . $fila['Tables_in_'.$db->db()] . '</option>');
       $conteo++;
     }
     $db->sql_close();

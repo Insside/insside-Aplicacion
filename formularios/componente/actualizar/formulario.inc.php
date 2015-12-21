@@ -8,12 +8,12 @@ $paises = new Paises();
 $regiones = new Regiones();
 $ciudades = new Ciudades();
 $sectores = new Sectores();
-$modulos = new Modulos();
+$modulos = new Aplicacion_Modulos();
 $componentes = new Aplicacion_Modulos_Componentes();
 $funciones = new Funciones();
-$permisos = new Permisos();
+$permisos = new Usuarios_Permisos();
 /** Valores * */
-$usuario=$sesion->usuario();
+$usuario=Sesion::usuario();
 $valores = $componentes->consultar($validaciones->recibir("componente"));
 $valores['fecha'] = $fechas->hoy();
 $valores['hora'] = $fechas->ahora();

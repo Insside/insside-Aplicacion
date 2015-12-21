@@ -1,78 +1,59 @@
 <?php
-/** Variables Recibidas * */
-$transaccion = @$_REQUEST['transaccion'];
-$estado = @$_REQUEST['estado'];
-$buscar = @$_REQUEST['buscar'];
+$root = (!isset($root)) ? "../../../../../" : $root;
+require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
+$validaciones=new Validaciones();
+/*
+ * Copyright (c) 2014, Alexis
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+$usuario=Sesion::usuario();
+$v['uid']=$usuario['usuario'];
+$v['criterio']=$validaciones->recibir("criterio");
+$v['valor']=$validaciones->recibir("valor");
+$v['fechainicial']=$validaciones->recibir("fechainicial");
+$v['fechafinal']=$validaciones->recibir("fechafinal");
+$v['transaccion']=$validaciones->recibir("transaccion");
+$v['url']="modulos/aplicacion/formularios/funciones/consultar/consultar.json.php?"
+        . "uid=".$v['uid']
+        . "&criterio=".$v['criterio']
+        . "&valor=".$v['valor']
+        . "&fechainicial=".$v['fechainicial']
+        . "&fechafinal=".$v['fechafinal']
+        . "&transaccion=".$v['transaccion'];
+
+/** Creación de la tabla **/
+$tabla = new iTable(array("id" => time(), "url" => $v['url'],"perPageOptions"=>array("1000","1500")));
+$tabla->boton('btnCrear', 'Crear', '', "MUI.Aplicacion_Funcion_Crear", "pNuevo");
+$tabla->boton('btnModificar', 'Modificar', 'funcion', "MUI.Aplicacion_Funcion_Modificar", "pEditar");
+//$tabla->boton('btnEliminar', 'Eliminar', 'usuario', "MUI.Usuarios_Roles_Rol_Eliminar", "pEliminar");
+$tabla->boton('btnBuscar', 'Buscar', '', "MUI.Usuarios_Usuarios_Complemento_Buscar", "pBuscar");
+//$tabla->boton('btnRoles', 'Roles', 'usuario', "MUI.Usuarios_Usuario_Roles", "pRoles");
+$tabla->columna('cFuncion', 'Función', 'funcion', 'string', '85', 'center', 'false');
+//$tabla->columna('cModulo', 'Modulo', 'modulo', 'string', '75', 'left', 'false');
+$tabla->columna('cDetalle', 'Detalles', 'detalles', 'string', '650', 'left', 'false');
+//$tabla->columna('cCreador', 'Creador', 'creador', 'date', '75', 'center', 'false');
+$tabla->columna('cFecha', 'Creacion', 'creacion', 'date', '75', 'center', 'false');
+$tabla->columna('cModificacion', 'Modificación', 'modificacion', 'date', '90', 'center', 'false');
+$tabla->generar();
 ?>
-<script type="text/javascript" src="plugins/iTable/iTable.js?<?php echo(time()); ?>"></script>
-<script type="text/javascript">
-  function filterGrid() {
-    itable.filter($('filter').value);
-  }
-  function clearFilter() {
-    itable.clearFilter();
-  }
-  function onGridSelect(evt) {
-    var str = 'row: ' + evt.row + ' indices: ' + evt.indices;
-    str += ' id: ' + evt.target.getDataByRow(evt.row).id;
-  }
-  function buscarClick(button, grid) {
-    parent.MUI.Suscriptores_Buscar('');
-  }
-  function imprimirClick(button, grid) {
-    //MUI.Distribucion_Instalaciones_Imprimir();
-  }
-
-  var cmu = [
-    {header: "Funcion", dataIndex: 'funcion', dataType: 'string', width: 80},
-    {header: "Detalles", dataIndex: 'detalle', dataType: 'string', width: 550},
-    {header: "Versión", dataIndex: 'version', dataType: 'string', width: 95},
-    {header: "<a href=\"#\" onClick=\"parent.MUI.Notificacion('Creador');\">C</a>", dataIndex: 'creador', dataType: 'string', width: 33}
-  ];
-
-  window.addEvent("domready", function() {
-    //$('filterbt').addEvent("click", filterGrid);
-    //$('clearfilterbt').addEvent("click", clearFilter);
-
-    itable = new iTable('mygrid', {
-      columnModel: cmu,
-      buttons: [
-        {name: 'Agregar', bclass: 'pNuevo', onclick: MUI.Aplicacion_Funcion_Crear},
-        {name: 'Buscar', bclass: 'pBuscar', onclick: MUI.Aplicacion_Busqueda_Funciones}
-        //{name: 'Delete', bclass: 'delete', onclick: buscarClick}
-        //{separator: true},
-        // {name: 'Duplicate', bclass: 'duplicate', onclick: gridButtonClick}
-      ],
-      url: "modulos/aplicacion/formularios/funciones/consultar/consultar.json.php?transaccion=<?php echo($transaccion); ?>&buscar=<?php echo($buscar); ?>&estado=<?php echo($estado); ?>",
-      perPageOptions: [250,500,1000,2000],
-      perPage: 250,
-      page: 1,
-      pagination: true,
-      serverSort: true,
-      showHeader: true,
-      alternaterows: true,
-      sortHeader: false,
-      resizeColumns: true,
-      multipleSelection: true,
-      // uncomment this if you want accordion behavior for every row
-      /*
-       accordion:true,
-       accordionRenderer:accordionFunction,
-       autoSectionToggle:false,
-       */
-
-      width: $('central').getSize().x,
-      height: $('central').getSize().y
-    });
-
-    itable.addEvent('click', onGridSelect);
-  });
-</script>
-<div id="mygrid" style="width:100%" ></div>
-<script type="text/javascript">
-  // Estas funciones son invocadas desde la barra de tareas
-  function tBuscar(texto) {
-    MUI.Suscriptores_Solicitudes_Buscar(texto);
-    return(false);
-  }
-</script>

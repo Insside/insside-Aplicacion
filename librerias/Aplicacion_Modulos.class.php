@@ -1,6 +1,8 @@
 <?php
+
 $root = (!isset($root)) ? "../../../" : $root;
-require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
+require_once($root . "librerias/Fechas.class.php");
+require_once($root . "librerias/MySQL.class.php");
 /*
  * Copyright (c) 2013, Alexis
  * All rights reserved.
@@ -32,56 +34,63 @@ require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
  *
  * @author Alexis
  */
-class Aplicacion_Modulos {
-  var $fechas;
+if (!class_exists('Aplicacion_Modulos')) {
 
-  function Aplicacion_Modulos() {
-    $this->fechas = new Fechas();
-  }
+    class Aplicacion_Modulos {
 
-  function consultar($modulo) {
-    $db = new MySQL();
-    $consulta = $db->sql_query("SELECT * FROM `aplicacion_modulos` WHERE `modulo` ='" . $modulo . "' ORDER BY `modulo`;");
-    $fila = $db->sql_fetchrow($consulta);
-    $db->sql_close();
-    return($fila);
-  }
+        var $fechas;
 
-  function crear($modulo, $nombre, $titulo, $descripcion) {
-    $fechas=new Fechas();
-    $db = new MySQL();
-    $sql = "SELECT * FROM `aplicacion_modulos` WHERE `modulo` =" . $modulo . ";";
-    $consulta = $db->sql_query($sql);
-    $conteo = $db->sql_numrows($consulta);
-    if ($conteo == 0) {
-      $sql = "INSERT INTO `aplicacion_modulos` SET ";
-      $sql.="`modulo` = '" . $modulo . "', ";
-      $sql.="`nombre` = '" . $nombre . "', ";
-      $sql.="`titulo` = '" . $titulo . "', ";
-      $sql.="`descripcion` = '" . $descripcion . "', ";
-      $sql.="`fecha` = '" . $fechas->hoy(). "', ";
-      $sql.="`hora` = '" . $fechas->ahora(). "', ";
-      $sql.="`creador` = '" . (Sesion::consultar("usuario")) . "';";
-      $consulta = $db->sql_query($sql);
-    } else {
+        function Aplicacion_Modulos() {
+            $this->fechas = new Fechas();
+        }
+
+        function consultar($modulo) {
+            $db = new MySQL();
+            $consulta = $db->sql_query("SELECT * FROM `aplicacion_modulos` WHERE `modulo` ='" . $modulo . "' ORDER BY `modulo`;");
+            $fila = $db->sql_fetchrow($consulta);
+            $db->sql_close();
+            return($fila);
+        }
+
+        function crear($modulo, $nombre, $titulo, $descripcion, $creador = "0") {
+            $fechas = new Fechas();
+            $db = new MySQL();
+            $sql = "SELECT * FROM `aplicacion_modulos` WHERE `modulo` =" . $modulo . ";";
+            $consulta = $db->sql_query($sql);
+            $conteo = $db->sql_numrows($consulta);
+            if ($conteo == 0) {
+                $sql = "INSERT INTO `aplicacion_modulos` SET ";
+                $sql.="`modulo` = '" . $modulo . "', ";
+                $sql.="`nombre` = '" . $nombre . "', ";
+                $sql.="`titulo` = '" . $titulo . "', ";
+                $sql.="`descripcion` = '" . $descripcion . "', ";
+                $sql.="`fecha` = '" . $fechas->hoy() . "', ";
+                $sql.="`hora` = '" . $fechas->ahora() . "', ";
+                $sql.="`creador` = '" . $creador . "';";
+                $consulta = $db->sql_query($sql);
+            } else {
+                
+            }
+            $db->sql_close();
+            return($sql);
+        }
+
+        function combo($name, $selected) {
+            $db = new MySQL();
+            $sql = "SELECT * FROM `aplicacion_modulos` ORDER BY `modulo`";
+            $consulta = $db->sql_query($sql);
+            $html = ('<select name="' . $name . '"id="' . $name . '">');
+            $conteo = 0;
+            while ($fila = $db->sql_fetchrow($consulta)) {
+                $html.=('<option value="' . $fila['modulo'] . '"' . (($selected == $fila['modulo']) ? "selected" : "") . '>' . $fila['modulo'] . ": " . $fila['nombre'] . '</option>');
+                $conteo++;
+            } $db->sql_close();
+            $html.=("</select>");
+            return($html);
+        }
 
     }
-    $db->sql_close();
-    return($modulo);
-  }
-
-  function combo($name, $selected) {
-    $db = new MySQL();
-    $sql = "SELECT * FROM `aplicacion_modulos` ORDER BY `modulo`";
-    $consulta = $db->sql_query($sql);
-    $html = ('<select name="' . $name . '"id="' . $name . '">');
-    $conteo = 0;
-    while ($fila = $db->sql_fetchrow($consulta)) {
-      $html.=('<option value="' . $fila['modulo'] . '"' . (($selected == $fila['modulo']) ? "selected" : "") . '>' . $fila['modulo'] . ": " . $fila['nombre'] . '</option>');
-      $conteo++;
-    } $db->sql_close();
-    $html.=("</select>");
-    return($html);
-  }
 
 }
+//$am=new Aplicacion_Modulos();
+?>

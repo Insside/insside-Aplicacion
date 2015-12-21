@@ -1,77 +1,59 @@
 <?php
 $root = (!isset($root)) ? "../../../../../../" : $root;
-require_once($root . "modulos/solicitudes/librerias/Configuracion.cnf.php");
-$sesion = new Sesion();
-$validaciones = new Validaciones();
-$clases=new Aplicacion_Framework_Clases();
+require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
+$validaciones=new Validaciones();
+/*
+ * Copyright (c) 2015, Alexis
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * * Redistributions of source code must retain the above copyright notice, this
+ *   list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+$usuario=Sesion::usuario();
+$clase= $validaciones->recibir('clase');
 
-$transaccion = $validaciones->recibir('transaccion');
-$estado = $validaciones->recibir('estado');
-$buscar = $validaciones->recibir('buscar');
-$clase= $clases->consultar($validaciones->recibir('clase'));
-$ruta = "modulos/aplicacion/formularios/framework/funciones/consultar/consultar.json.php";
-$datos = "?transaccion=" . $transaccion . "&buscar=" . $buscar . "&estado=" . $estado . "&clase=" . $clase['clase'];
-$url = $ruta . $datos;
-$itable="itablefunciones";
+$v['uid']=$usuario['usuario'];
+$v['criterio']=$validaciones->recibir("criterio");
+$v['valor']=$validaciones->recibir("valor");
+$v['inicio']=$validaciones->recibir("inicio");
+$v['fin']=$validaciones->recibir("fin");
+$v['transaccion']=$validaciones->recibir("transaccion");
+$v['url']="modulos/aplicacion/formularios/framework/funciones/consultar/consultar.json.php?"
+        . "clase=".$clase
+        . "&uid=".$v['uid']
+        . "&criterio=".$v['criterio']
+        . "&valor=".$v['valor']
+        . "&inicio=".$v['inicio']
+        . "&fin=".$v['fin']
+        . "&transaccion=".$v['transaccion'];
+
+/** Creación de la tabla **/
+$tabla = new iTable(array("id" => time(), "url" => $v['url'],"perPageOptions"=>array(100,200)));
+$tabla->boton('btnCrear', 'Crear',array("indice"=>"","directo"=>$clase), "MUI.Aplicacion_Framework_Funcion_Crear", "pNuevo");
+$tabla->boton('btnExplorar', 'Explorar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Explorar", "pBuscar");
+$tabla->boton('btnEliminar', 'Eliminar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Eliminar", "pEliminar");
+$tabla->boton('btnModificar', 'Modificar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Modificar", "pEditar");
+$tabla->columna('cFuncion', 'Funcion', 'funcion', 'string', '90', 'center', 'false');
+$tabla->columna('cDetalles', 'Detalles', 'detalles', 'string', '600', 'left', 'false');
+$tabla->columna('cFecha', 'Fecha', 'fecha', 'date', '70', 'center', 'false');
+$tabla->columna('cHora', 'Hora', 'hora', 'string', '55', 'center', 'false');
+$tabla->generar();
 ?>
-<script type="text/javascript"> 
-  function filtrar<?php echo($transaccion); ?>() {<?php echo($itable);?>.filter($('filter').value);}
-  function desfiltrar<?php echo($transaccion); ?>() {<?php echo($itable);?>.clearFilter();}
-  function seleccion_Click<?php echo($transaccion); ?>(evt) {var str = 'row: ' + evt.row + ' indices: ' + evt.indices;str += ' id: ' + evt.target.getDataByRow(evt.row).id;}
-  function buscar_Click<?php echo($transaccion); ?>(button, grid) {MUI.Aplicacion_Componentes_Busqueda();}
-  function imprimir_Click<?php echo($transaccion); ?>(button, grid) {}
-  function explorar_Click<?php echo($transaccion); ?>(button, grid) {var indices = <?php echo($itable);?>.getSelectedIndices();if (indices.length == 0) {return;}for (var i = 0; i < indices.length; i++) {var funcion= <?php echo($itable);?>.getDataByRow(indices[i]).funcion;MUI.Aplicacion_Framework_Funcion_Consultar(funcion);}}
-  function editar_Click<?php echo($transaccion); ?>(button, grid) {var indices = <?php echo($itable);?>.getSelectedIndices();if (indices.length == 0) {return;}for (var i = 0; i < indices.length; i++) {var funcion= <?php echo($itable);?>.getDataByRow(indices[i]).funcion;MUI.Aplicacion_Framework_Funcion_Actualizar(funcion);}}
-  function crear_Click<?php echo($transaccion); ?>(button, grid) {MUI.Aplicacion_Framework_Funcion_Crear('<?php echo($clase['clase']); ?>');}
-  function eliminar_Click<?php echo($transaccion); ?>(button, grid) {var indices = <?php echo($itable);?>.getSelectedIndices();if (indices.length == 0) {return;}for (var i = 0; i < indices.length; i++) {var funcion= <?php echo($itable);?>.getDataByRow(indices[i]).funcion;MUI.Aplicacion_Framework_Funcion_Eliminar(funcion);}}
-
-  var cmu = [
-    {header: "Función", dataIndex: 'funcion', dataType: 'string', align: 'center', width: 90},
-    {header: "Detalles", dataIndex: 'detalles', dataType: 'string', width: 600},
-    {header: "Fecha", dataIndex: 'fecha', dataType: 'date', width: 70},
-    {header: "Hora", dataIndex: 'hora', dataType: 'string', width: 55}
-  ];
-  window.addEvent("domready", function() {
-    //$('filterbt').addEvent("click", filterGrid);
-    //$('clearfilterbt').addEvent("click", clearFilter);
-    <?php echo($itable);?> = new iTable('<?php echo($itable);?><?php echo($transaccion); ?>', {
-      columnModel: cmu,
-      buttons: [
-        {name: 'Agregar', bclass: 'pNuevo', onclick: crear_Click<?php echo($transaccion); ?>},
-        {name: 'Editar', bclass: 'pEditar', onclick: editar_Click<?php echo($transaccion); ?>},
-        {name: 'Eliminar', bclass: 'pEliminar', onclick: eliminar_Click<?php echo($transaccion); ?>},
-        {name: 'Explorar', bclass: 'pExplorar', onclick: explorar_Click<?php echo($transaccion); ?>},
-        {name: 'Buscar', bclass: 'pBuscar', onclick:buscar_Click<?php echo($transaccion); ?>}
-        //{name: 'Delete', bclass: 'delete', onclick: buscarClick}
-        //{separator: true},
-        // {name: 'Duplicate', bclass: 'duplicate', onclick: gridButtonClick}
-      ],
-      url: "<?php echo($url); ?>",
-      perPageOptions: [500, 1000, 1500, 2000],
-      perPage: 500,
-      page: 1,
-      pagination: true,
-      serverSort: true,
-      showHeader: true,
-      alternaterows: true,
-      sortHeader: false,
-      resizeColumns: true,
-      multipleSelection: true,
-      // uncomment this if you want accordion behavior for every row
-      /*
-       accordion:true,
-       accordionRenderer:accordionFunction,
-       autoSectionToggle:false,
-       */
-
-      width: $('central').getSize().x,
-      height: $('central').getSize().y
-    });
-
-    <?php echo($itable);?>.addEvent('click', seleccion_Click<?php echo($transaccion); ?>);
-  });
-  
- MUI.titlePanel($('central'),"<span style=\"color:#004080;\">Insside Framework JavaScript</span> / <span style=\"color:#FF0000;\">MUI.<?php echo($clase['nombre']);?></span>");
-  
-</script>
-<div id="<?php echo($itable);?><?php echo($transaccion); ?>" style="width:100%" ></div>

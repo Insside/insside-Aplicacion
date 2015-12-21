@@ -1,9 +1,8 @@
 <?php
 $root = (!isset($root)) ? "../../../../" : $root;
 require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
-/** Variables Recibidas* */
-$funcion = $_REQUEST['funcion'];
 /** Variables * */
+$v=new Validaciones();
 $cadenas = new Cadenas();
 $fechas = new Fechas();
 $paises = new Paises();
@@ -11,12 +10,15 @@ $regiones = new Regiones();
 $ciudades = new Ciudades();
 $sectores = new Sectores();
 $funciones = new Funciones();
-$modulos = new Modulos();
-$funcion = $funciones->consultar($funcion);
+$modulos = new Aplicacion_Modulos();
+
+$funcion = $funciones->consultar($v->recibir("funcion"));
+$itable=$v->recibir("itable");
 /** Valores * */
 $valores = $funcion;
 /** Campos * */
 $f->oculto('codigo' . $f->id, "");
+$f->oculto('itable' ,$itable);
 $f->campos['funcion'] = $f->text("funcion", $valores['funcion'], "10", "required automatico", false);
 $f->campos['modulo'] = $modulos->combo("modulo", $valores['modulo']);
 $f->campos['nombre'] = $f->text("nombre", $valores['nombre'], "64", "required", false);

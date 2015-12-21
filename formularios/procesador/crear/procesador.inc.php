@@ -44,16 +44,16 @@ $codigo.= "\$cadenas = new Cadenas();\n";
 $codigo.= "\$fechas = new Fechas();\n";
 $codigo.= "\$validaciones = new Validaciones();\n";
 $codigo.= "/** Clase representativa Del Objeto **/\n";
-
+$codigo.=("\$clase=new Clase();\n");
 $codigo.= "/** Campos Recibidos **/\n";
 $codigo.=("\$datos=array();\n");
 for($i=0;$i<count($campos);$i++){
   $codigo.="\$datos['".$campos[$i]['Field']."']=\$validaciones->recibir(\"".$campos[$i]['Field']."\");\n";
 }
-$codigo.=("\$clase=new Clase();\n");
-$codigo.=("\$codigo=new \$clase->crear(\$datos);\n");
-
+$codigo.=("\$codigo=\$clase->crear(\$datos);\n");
 $codigo.= "/** JavaScripts **/\n";
+$codigo.=("\$itable=\$validaciones->recibir(\"itable\");\n");
+$codigo.=("if(!empty(\$itable)){\$f->JavaScript(\"if(\".\$itable.\"){\".\$itable.\".refresh();}\");}\n");
 $codigo.=("\$f->JavaScript(\"MUI.closeWindow($('\" . (\$f->ventana) . \"'));\");\n");
 $codigo.=("?>");
 

@@ -67,7 +67,7 @@ $f->botones($f->campos['cancelar'], "inferior-derecha");
 $f->botones($f->campos['continuar'], "inferior-derecha");
 /** JavaScript **/
 $f->JavaScript("MUI.titleWindow($('" . ($f->ventana) . "'), \"Publicar / Compartir\");");
-$f->JavaScript("MUI.resizeWindow($('" . ($f->ventana) . "'), {width: 320, height: 400});");
+$f->JavaScript("MUI.resizeWindow($('" . ($f->ventana) . "'), {width: 320, height: 420});");
 $f->JavaScript("MUI.centerWindow($('" . $f->ventana . "'));");
 $f->eClick("cancelar" . $f->id, "MUI.closeWindow($('" . $f->ventana . "'));");
 ?>

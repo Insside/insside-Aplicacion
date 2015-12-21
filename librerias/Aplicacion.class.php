@@ -13,7 +13,7 @@ class Aplicacion {
     $this->sesion = new Sesion();
     $this->fechas = new Fechas();
     $this->modulos = new Aplicacion_Modulos();
-    $permisos = new Permisos();
+    $permisos = new Aplicacion_Permisos();
     $modulos = new Aplicacion_Modulos();
     $modulo = $modulos->crear("001", "Aplicación", "Modulo Control Del Aplicativo", "");
     $permisos->permiso_crear($modulo, "APLICACION-MODULO-A", "Acceso Modulo Aplicación", "Permite ver y acceder al modulo Aplicación.", "0000000000");

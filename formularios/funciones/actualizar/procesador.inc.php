@@ -3,7 +3,7 @@
 $root = (!isset($root)) ? "../../../../" : $root;
 require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
 require_once($root . "librerias/soap/nusoap.php");
-$validaciones = new Validaciones();
+$v = new Validaciones();
 $configuraciones = new Configuraciones();
 $fechas = new Fechas();
 $funciones = new Funciones();
@@ -32,13 +32,14 @@ $funciones = new Funciones();
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-$funcion = $funciones->consultar($validaciones->recibir('funcion'));
-$modulo = $validaciones->recibir('modulo');
-$nombre = $validaciones->recibir('nombre');
-$parametros = $validaciones->recibir('parametros');
-$cuerpo = stripslashes($validaciones->recibir('codigo' . $f->id));
-$descripcion = $validaciones->recibir('descripcion');
-$estado = $validaciones->recibir('estado');
+$itable=$v->recibir('itable');
+$funcion = $funciones->consultar($v->recibir('funcion'));
+$modulo = $v->recibir('modulo');
+$nombre = $v->recibir('nombre');
+$parametros = $v->recibir('parametros');
+$cuerpo = stripslashes($v->recibir('codigo' . $f->id));
+$descripcion = $v->recibir('descripcion');
+$estado = $v->recibir('estado');
 $version = $funcion['version'] + 0.001;
 $modificacion = $fechas->hoy();
 $log = "";
@@ -61,18 +62,12 @@ $funciones->actualizar($funcion['funcion'], 'modificacion', $modificacion);
 // Sincronización
 if ($configuraciones->modo == "desarrollo") {
   $tfuncion = $funciones->consultar($funcion['funcion']);
-  $cliente = new nusoap_client("http://" . $configuraciones->intranet . "/agb/sincronizacion.php");
+  $cliente = new nusoap_client("http://" . $configuraciones->intranet . "/insside/sincronizacion.php");
   $error = $cliente->getError();
   $result = $cliente->call("funcion", array("funcion" => $tfuncion));
   $log = "Modo desarrollo: Sincronizando Actualizacion.".$error;
 }
-
-
-
-//echo("<pre style=\"font-size:10px; line-height:8px;\">");
-//print_r($_REQUEST);
-//echo("</pre>");
-$f->JavaScript("console.log('" . $log . "');");
-$f->JavaScript("if(itable){itable.refresh();}");
+/** JavaScripts **/
 $f->JavaScript("MUI.closeWindow($('" . ($f->ventana) . "'));");
+$f->JavaScript("if(".$itable."){".$itable.".refresh();}");
 ?>

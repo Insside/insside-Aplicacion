@@ -1,4 +1,6 @@
 <?php
+$root = (!isset($root)) ? "../../../../" : $root;
+require_once($root."modulos/usuarios/librerias/Usuarios.class.php");
 $usuarios=new Usuarios();
 $validaciones=new Validaciones();
 /* 
@@ -32,9 +34,11 @@ $clave=$validaciones->recibir("clave");
 if ((!empty($usuario) && !empty($clave))) {
       Sesion::Iniciar($usuario, $clave);
       if (Sesion::Iniciada()) {
+        echo("<div class=\"succes\"><b>Notificación</b>: Bienvenido. </div>");
         $f->JavaScript("MUI.closeWindow($('" . ($f->ventana) . "'));");
         $f->JavaScript("window.location.reload();");
       }else{
+        echo("<div class=\"error\"><b>Advertencia</b>: Clave incorrecta. </div>");
         require_once($url['formulario']);
       }
     }

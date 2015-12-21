@@ -1,5 +1,6 @@
 <?php
-
+$root = (!isset($root)) ? "../../../" : $root;
+require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
 /*
  * Copyright (c) 2013, Alexis
  * All rights reserved.
@@ -34,11 +35,9 @@
 class Aplicacion_Modulos_Componentes {
 
 //put your code here
-  var $sesion;
   var $fechas;
 
   function Aplicacion_Modulos_Componentes() {
-    $this->sesion = new Sesion();
     $this->fechas = new Fechas();
   }
 
@@ -48,7 +47,9 @@ class Aplicacion_Modulos_Componentes {
     $fila = $db->sql_fetchrow($consulta);
     $db->sql_close();
     $fila['titulo']=urldecode($fila['titulo']);
-    $fila['descripcion']=urldecode($fila['descripcion']);
+    if(isset($fila['descripcion'])&&!empty($fila['descripcion'])){
+        $fila['descripcion']=urldecode($fila['descripcion']);
+    }
     return($fila);
   }
   
@@ -105,5 +106,6 @@ class Aplicacion_Modulos_Componentes {
     $html.=("</select>");
     return($html);
   }
+  
 
 }

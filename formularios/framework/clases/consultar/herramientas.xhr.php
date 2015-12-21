@@ -1,7 +1,6 @@
 <?php
-
-/* 
- * Copyright (c) 2014, Alexis
+/*
+ * Copyright (c) 2015, Asus X455L
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,4 +24,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+?>
+<div class="toolbox divider">  
+  <a href="#" onClick="MUI.Aplicacion_Framework_Clases_Sincronizar();"><img src="imagenes/016x016/upload.png" class="icon16"/></a>
+</div>
 

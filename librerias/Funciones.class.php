@@ -12,7 +12,7 @@ class Funciones {
   function Funciones() {
     $this->sesion = new Sesion();
     $this->existencia();
-    $permisos = new Permisos();
+    $permisos = new Usuarios_Permisos();
     $permisos->crear("APLICACION-FUNCIONES", "Permite acceder al componente funciones, para el modulo aplicacion.", "SISTEMA");
     $permisos->crear("APLICACION-FUNCIONES-R", "Permite visualizar la lista de funciones del  sistema.", "SISTEMA");
     $permisos->crear("APLICACION-FUNCIONES-W", "Permite registrar o actualizar la información y codigo fuente de las funciones.", "SISTEMA");
@@ -86,7 +86,7 @@ class Funciones {
   }
 
   function combo($name, $selected) {
-    $modulos = new Modulos();
+    $modulos = new Aplicacion_Modulos();
     $db = new MySQL();
     $sql = "SELECT * FROM `aplicacion_funciones` ORDER BY `modulo`,`nombre` ASC";
     $consulta = $db->sql_query($sql);

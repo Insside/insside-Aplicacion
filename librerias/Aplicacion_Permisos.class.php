@@ -1,7 +1,8 @@
 <?php
+
 $root = (!isset($root)) ? "../../../" : $root;
 require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
-
+require_once($root . "modulos/usuarios/librerias/Usuarios_Permisos.class.php");
 
 /*
  * Copyright (c) 2015, Alexis
@@ -34,9 +35,15 @@ require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
  *
  * @author Alexis
  */
-class Aplicacion_Permisos extends Permisos{
-  //put your code here
-  function Aplicacion_Permisos(){
-    
-  }
+if (!class_exists('Aplicacion_Permisos')) {
+
+    class Aplicacion_Permisos extends Usuarios_Permisos {
+
+        //put your code here
+        function Aplicacion_Permisos() {
+            
+        }
+
+    }
+
 }

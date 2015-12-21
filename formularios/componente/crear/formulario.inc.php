@@ -6,14 +6,14 @@ $paises = new Paises();
 $regiones = new Regiones();
 $ciudades = new Ciudades();
 $sectores = new Sectores();
-$modulos = new Modulos();
+$modulos = new Aplicacion_Modulos();
 $componentes = new Aplicacion_Modulos_Componentes();
 $funciones = new Funciones();
-$permisos = new Permisos();
+$permisos = new Usuarios_Permisos();
 $validaciones=new Validaciones();
 
 /** Valores * */
-$usuario=$sesion->usuario();
+$usuario=Sesion::usuario();
 $valores['componente'] = time();
 $valores['titulo'] = @$_REQUEST["_titulo"];
 $valores['descripcion'] = @$_REQUEST["_descripcion"];

@@ -31,5 +31,7 @@ $funciones=new Aplicacion_Framework_Funciones();
 $funcion=$funciones->consultar($validaciones->recibir("funcion"));
 ?>
 <div class="toolbox divider">
-  <a href="#" onClick="MUI.Aplicacion_Framework_Clase_Consultar('<?php echo($funcion['clase']);?>');"><img src="imagenes/16x16/retroceder.png" class="icon16"/></a>
+  <a href="#" onClick="MUI.Aplicacion_Framework_Clase_Explorar('<?php echo($funcion['clase']);?>');"><img src="imagenes/16x16/retroceder.png" class="icon16"/></a>
+  <a href="#" onClick="MUI.Aplicacion_Framework_Codigos_Sincronizar('<?php echo($_REQUEST["funcion"]);?>');"><img src="imagenes/016x016/upload.png" class="icon16"/></a>
 </div>
+

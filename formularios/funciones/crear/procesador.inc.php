@@ -24,7 +24,7 @@ $funciones->actualizar($funcion, "estado", $estado);
 // Sincronización si se esta en modo <<desarrollo>>
 if ($configuraciones->modo == "desarrollo") {
   $tfuncion = $funciones->consultar($funcion);
-  $cliente = new nusoap_client("http://" . $configuraciones->intranet . "/agb/sincronizacion.php");
+  $cliente = new nusoap_client("http://" . $configuraciones->intranet . "/insside/sincronizacion.php");
   $error = $cliente->getError();
   $result = $cliente->call("funcion", array("funcion" => $tfuncion));
   $log = "Modo desarrollo: Sincronizando Actualización.";

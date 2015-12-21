@@ -46,17 +46,14 @@ $codigo = "&lt;?php\n";
 $codigo.= "/** Variables **/\n";
 $codigo.= "\$cadenas = new Cadenas();\n";
 $codigo.= "\$fechas = new Fechas();\n";
-$codigo.= "\$paises = new Paises();\n";
-$codigo.= "\$regiones = new Regiones();\n";
-$codigo.= "\$ciudades = new Ciudades();\n";
-$codigo.= "\$sectores = new Sectores();\n";
 $codigo.= "\$validaciones = new Validaciones();\n";
 $codigo.= "/** Valores **/\n";
+$codigo.= "\$itable=\$validaciones->recibir(\"itable\");\n";
 for($i=0;$i<count($campos);$i++){
   $codigo.=("\$valores['" . $campos[$i]['Field'] . "']=\$validaciones->recibir(\"_" . $campos[$i]['Field'] . "\");\n");
 }
-
 $codigo.= "/** Campos **/\n";
+$codigo.= "if(!empty(\$itable)){\$f->oculto(\"itable\",\$itable);}\n";
 for($i=0;$i<count($campos);$i++){
   $inicial = stripos($campos[$i]['Type'], "(");
   $final = stripos($campos[$i]['Type'], ")");
