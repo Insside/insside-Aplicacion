@@ -1,16 +1,16 @@
 <?php
 /** Campos **/
 $f->campos['estilo']=$f->text("estilo",$v['estilo'],"10","required",true);
-$f->campos['identidad']=$f->text("identidad",$v['identidad'],"64","",true);
-$f->campos['clase']=$f->text("clase",$v['clase'],"64","",true);
-$f->campos['etiqueta']=$f->text("etiqueta",$v['etiqueta'],"64","",true);
-$f->campos['estado']=$f->text("estado",$v['estado'],"64","",true);
+$f->campos['identidad']=$f->text("identidad",$v['identidad'],"64","",false);
+$f->campos['clase']=$f->text("clase",$v['clase'],"64","",false);
+$f->campos['etiqueta']=$f->text("etiqueta",$v['etiqueta'],"64","",false);
+$f->campos['estado']=$f->text("estado",$v['estado'],"64","",false);
 $f->campos['css'] = $f->iAreaCode("css", "css", $v['css']);
 $f->campos['css_firefox'] =$f->iAreaCode("css_firefox", "css", $v['css_firefox']);
 $f->campos['css_chrome'] = $f->iAreaCode("css_chrome", "css", $v['css_chrome']);
 $f->campos['css_iexplorer'] =$f->iAreaCode("css_iexplorer", "css", $v['css_iexplorer']);
 $f->campos['css_opera'] =$f->iAreaCode("css_opera", "css", $v['css_opera']);
-$f->campos['descripcion']=$f->text("descripcion",$v['descripcion'],"lo","",true);
+$f->campos['descripcion']=$f->text("descripcion",$v['descripcion'],"lo","",false);
 $f->campos['version']=$f->text("version",$v['version'],"oubl","",true);
 $f->campos['fecha']=$f->text("fecha",$v['fecha'],"10","",true);
 $f->campos['hora']=$f->text("hora",$v['hora'],"8","",true);

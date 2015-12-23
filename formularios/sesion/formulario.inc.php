@@ -32,42 +32,49 @@ $transaccion = $validaciones->recibir("transaccion");
 /** Variables * */
 $cadenas = new Cadenas();
 $fechas = new Fechas();
-$paises = new Paises();
-$regiones = new Regiones();
-$ciudades = new Ciudades();
-$sectores = new Sectores();
 $validaciones = new Validaciones();
 /** Valores * */
-$valores['usuario'] = $validaciones->recibir("usuario");
+$valores['usuario'] ="";
 $valores['clave'] ="";
 /** Campos * */
-$f->campos['logo'] = "<img src=\"imagenes/logo-imis-300x168.png\"/>";
-$f->campos['usuario'] = $f->text("usuario", $valores['usuario'], "15", "required usuario", false);
-$f->campos['clave'] = $f->password("clave", $valores['clave'], "64", "required clave", false);
+$f->campos['logo'] = "<img class=\"avatar\" src=\"modulos/aplicacion/imagenes/avatar.png\" />";
+$f->campos['facebook'] = "<img class=\"\" src=\"modulos/aplicacion/imagenes/facebook-login-button.png\" width=\"100%\" />";
+$f->campos['usuario'] = $f->text("usuario", $valores['usuario'], "15", "required user", false,false,"Usuario o correo electrónico ");
+$f->campos['clave'] = $f->password("clave", $valores['clave'], "64", "required password", false,false,"Contraseña / Clave");
 $f->campos['ayuda'] = $f->button("ayuda" . $f->id, "button", "Ayuda");
 $f->campos['cancelar'] = $f->button("cancelar" . $f->id, "button", "Cancelar");
-$f->campos['continuar'] = $f->button("continuar" . $f->id, "submit", "Continuar");
+$f->campos['continuar'] = $f->button("continuar" . $f->id, "submit", "Continuar","signing");
 /** Celdas * */
 $f->celdas["logo"] = $f->celda("", $f->campos['logo'], "", "sinfondo");
-$f->celdas["usuario"] = $f->celda("Usuario:", $f->campos['usuario'],"","sinfondo");
-$f->celdas["clave"] = $f->celda("Clave:", $f->campos['clave'],"","sinfondo");
+$f->celdas["facebook"] = $f->celda("", $f->campos['facebook'], "", "sinfondo");
+$f->celdas["usuario"] = $f->celda("", $f->campos['usuario'],"","sinfondo");
+$f->celdas["clave"] = $f->celda("", $f->campos['clave'],"","sinfondo");
 /** Filas * */
 $f->fila["fila0"] = $f->fila($f->celdas["logo"]);
-$f->fila["fila1"] = $f->fila($f->celdas["usuario"]);
-$f->fila["fila2"] = $f->fila($f->celdas["clave"]);
+$f->fila["fila1"] = $f->fila($f->celdas["facebook"]);
+$f->fila["fila2"] = $f->fila($f->celdas["usuario"]);
+$f->fila["fila3"] = $f->fila($f->celdas["clave"]);
+$f->fila["fila4"] = $f->fila($f->campos['continuar']);
+$f->fila["fila5"] = $f->fila("<a href=\"#\" class=\"requestpassword\">¿Has olvidado tu contraseña?</a>");
+
 /** Compilando * */
 $f->filas("<div class=\"sesion\">");
 $f->filas($f->fila['fila0']);
-$f->filas($f->fila['fila1']);
+//$f->filas($f->fila['fila1']);
 $f->filas($f->fila['fila2']);
+$f->filas($f->fila['fila3']);
+$f->filas($f->fila['fila4']);
+$f->filas($f->fila['fila5']);
 $f->filas("</div>");
 /** Botones * */
-$f->botones($f->campos['ayuda'], "inferior-izquierda");
-$f->botones($f->campos['cancelar'], "inferior-derecha");
-$f->botones($f->campos['continuar'], "inferior-derecha");
+//$f->botones($f->campos['ayuda'], "inferior-izquierda");
+//$f->botones($f->campos['cancelar'], "inferior-derecha");
+//$f->botones($f->campos['continuar'], "inferior-derecha");
 /** JavaScript **/
-$f->JavaScript("MUI.titleWindow($('" . ($f->ventana) . "'), \"Publicar / Compartir\");");
-$f->JavaScript("MUI.resizeWindow($('" . ($f->ventana) . "'), {width: 320, height: 420});");
+$f->JavaScript("MUI.titleWindow($('" . ($f->ventana) . "'), \"Iniciar Sesión\");");
+$f->JavaScript("MUI.resizeWindow($('" . ($f->ventana) . "'), {width: 300, height: 400});");
 $f->JavaScript("MUI.centerWindow($('" . $f->ventana . "'));");
+$f->JavaScript("new OverText('usuario',{});");
+$f->JavaScript("new OverText('clave',{});");
 $f->eClick("cancelar" . $f->id, "MUI.closeWindow($('" . $f->ventana . "'));");
 ?>

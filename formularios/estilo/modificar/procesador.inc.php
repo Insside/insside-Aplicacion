@@ -4,6 +4,7 @@ $fechas=new Fechas();
 $ae=new Aplicacion_Estilos();
 $itable=$v->recibir("itable");
 $p["estilo"]=$v->recibir("estilo");
+$p["identidad"]=$v->recibir("identidad");
 $p["clase"]=$v->recibir("clase");
 $p["subclase"]=$v->recibir("subclase");
 $p["etiqueta"]=$v->recibir("etiqueta");
