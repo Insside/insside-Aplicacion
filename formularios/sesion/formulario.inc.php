@@ -55,7 +55,7 @@ $f->fila["fila1"] = $f->fila($f->celdas["facebook"]);
 $f->fila["fila2"] = $f->fila($f->celdas["usuario"]);
 $f->fila["fila3"] = $f->fila($f->celdas["clave"]);
 $f->fila["fila4"] = $f->fila($f->campos['continuar']);
-$f->fila["fila5"] = $f->fila("<a href=\"#\" class=\"requestpassword\">¿Has olvidado tu contraseña?</a>");
+$f->fila["fila5"] = $f->fila("<a href=\"#\" onClic=\"MUI.Usuarios_Recuperar_Clave();\" class=\"requestpassword\">¿Has olvidado tu contraseña?</a>");
 
 /** Compilando * */
 $f->filas("<div class=\"sesion\">");
