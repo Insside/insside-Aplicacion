@@ -117,7 +117,7 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
 //          $js.="}\n";
         $js.="\n},\n";
       }
-
+      $js.="version:function(){return('".$this->version($clase)."');}\n";
       if (strpos($clase['nombre'], "MUI.") === false) {
         $js.="});\n";
       } else {
@@ -130,6 +130,14 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
       return($js);
     }
 
+    /**
+     * Retorna la version calculada de una clase
+     * @param type $class
+     */
+    function version($class){
+      return(0);
+    }
+    
     /**
      * Retorna el numero total de clases existentes.
      * @param type $clase
