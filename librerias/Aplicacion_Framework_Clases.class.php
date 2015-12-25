@@ -86,7 +86,14 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
       $db = new MySQL();
       $sql = "SELECT * FROM `aplicacion_framework_funciones` WHERE `clase` ='" . $clase['clase'] . "' ORDER BY `nombre`;";
       $consulta = $db->sql_query($sql);
-      $js = "var " . $clase['nombre'] . "=new Class({\n";
+
+      if (strpos($clase['nombre'], "MUI.") === false) {
+        $js = "var " . $clase['nombre'] . "=new Class({\n";
+      } else {
+        $js = "" . $clase['nombre'] . "={\n";
+      }
+
+
       if (!empty($clase['implements'])) {
         $js.="Implements:[" . $clase['implements'] . "],\n";
       }
@@ -110,7 +117,14 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
 //          $js.="}\n";
         $js.="\n},\n";
       }
-      $js.="});\n";
+
+      if (strpos($clase['nombre'], "MUI.") === false) {
+        $js.="});\n";
+      } else {
+        $js.="};\n";
+      }
+
+
       $db->sql_close();
       //return(Compactador::minify($js));
       return($js);
