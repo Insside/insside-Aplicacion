@@ -1,9 +1,10 @@
 <?php
+
 $root = (!isset($root)) ? "../../../" : $root;
 require_once($root . "librerias/Configuracion.cnf.php");
 require_once($root . "modulos/aplicacion/librerias/Compactador.class.php");
-require_once($root."modulos/aplicacion/librerias/Aplicacion_Framework_Clases.class.php");
-/* 
+require_once($root . "modulos/aplicacion/librerias/Aplicacion_Framework_Clases.class.php");
+/*
  * Copyright (c) 2014, Alexis
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
@@ -28,12 +29,12 @@ require_once($root."modulos/aplicacion/librerias/Aplicacion_Framework_Clases.cla
  * POSSIBILITY OF SUCH DAMAGE.
  */
 header('Content-Type: application/x-javascript');
- $c=new Aplicacion_Framework_Clases();
+$afc = new Aplicacion_Framework_Clases();
 $db = new MySQL();
-$sql ="SELECT * FROM `aplicacion_framework_clases` WHERE(`estado` = 'ACTIVA');";
-$consulta=$db->sql_query($sql);
-while($fila =$db->sql_fetchrow($consulta)){
-   echo ($c->codensador($fila['clase']));
+$sql = "SELECT * FROM `aplicacion_framework_clases` WHERE(`estado` = 'ACTIVA');";
+$consulta = $db->sql_query($sql);
+while ($fila = $db->sql_fetchrow($consulta)) {
+  echo ($afc->codensador($fila['clase']));
 }
 $db->sql_close();
 ?>
