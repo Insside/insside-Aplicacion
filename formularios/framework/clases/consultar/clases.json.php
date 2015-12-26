@@ -86,14 +86,15 @@ if (!empty($v['criterio']) && !empty($v['valor']) && $v['criterio'] != "estado")
 }
 
 $db = new MySQL();
-$consulta = $db->sql_query("SELECT * FROM `aplicacion_framework_clases` " . $buscar . " ORDER BY `clase` DESC;");
+$consulta = $db->sql_query("SELECT * FROM `aplicacion_framework_clases` " . $buscar . " ORDER BY `nombre` ASC;");
 $total = $db->sql_numrows($consulta);
-$sql = "SELECT * FROM `aplicacion_framework_clases` " . $buscar . " ORDER BY `clase` DESC " . $limite;
+$sql = "SELECT * FROM `aplicacion_framework_clases` " . $buscar . " ORDER BY `nombre` ASC " . $limite;
 
 $consulta = $db->sql_query($sql);
 $dato= array();
 while ($fila = $db->sql_fetchrow($consulta)) {
   $fila["clase"] = $fila['clase'];
+  $fila['descripcion']=  strip_tags(urldecode($fila['descripcion']));
   $fila["detalles"] = "<b>" . $fila['nombre'] . "</b>: <i>" . $cadenas->recortar($fila['descripcion'], "100") . " </i>";
   $fila["fecha"] = $fila["fecha"];
   $fila["hora"] = $fila["hora"];
