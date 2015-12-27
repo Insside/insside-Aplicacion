@@ -1,6 +1,6 @@
 <?php
 
-$root = (!isset($root)) ? "../../../" : $root;
+$root = (!isset($root)) ? "../../../../" : $root;
 require_once($root . "librerias/Configuracion.cnf.php");
 require_once($root . "modulos/aplicacion/librerias/Compactador.class.php");
 require_once($root . "modulos/aplicacion/librerias/Aplicacion_Framework_Clases.class.php");
@@ -31,7 +31,7 @@ require_once($root . "modulos/aplicacion/librerias/Aplicacion_Framework_Clases.c
 header('Content-Type: application/x-javascript');
 $afc = new Aplicacion_Framework_Clases();
 $db = new MySQL();
-$sql = "SELECT * FROM `aplicacion_framework_clases` WHERE(`estado` = 'ACTIVA');";
+$sql = "SELECT * FROM `aplicacion_framework_clases` WHERE(`nombre` NOT LIKE  '%MUI.%' AND `estado` = 'ACTIVA');";
 $consulta = $db->sql_query($sql);
 while ($fila = $db->sql_fetchrow($consulta)) {
   echo ($afc->codensador($fila['clase']));

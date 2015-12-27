@@ -37,6 +37,7 @@ $datos=array();
 $datos['clase']=$v->recibir("clase");
 $datos['implements']=$v->recibir("implements");
 $datos['extends']=$v->recibir("extends");
+$datos['tipo']=$v->recibir("tipo");
 $datos['nombre']=$v->recibir("nombre");
 $datos['descripcion']=  urlencode($v->recibir("descripcion"));
 $datos['fecha']=$v->recibir("fecha");

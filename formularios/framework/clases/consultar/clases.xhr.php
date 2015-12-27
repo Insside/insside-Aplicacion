@@ -36,7 +36,7 @@ $v['valor']=$validaciones->recibir("valor");
 $v['inicio']=$validaciones->recibir("inicio");
 $v['fin']=$validaciones->recibir("fin");
 $v['transaccion']=$validaciones->recibir("transaccion");
-$v['url']="modulos/aplicacion/formularios/framework/estilos/consultar/clases.json.php?"
+$v['url']="modulos/aplicacion/formularios/framework/clases/consultar/clases.json.php?"
         . "herencia=".$herencia
         . "uid=".$v['uid']
         . "&criterio=".$v['criterio']
@@ -53,8 +53,8 @@ $tabla->boton('btnEliminar', 'Eliminar', 'clase', "MUI.Aplicacion_Framework_Clas
 $tabla->boton('btnModificar', 'Modificar', 'clase', "MUI.Aplicacion_Framework_Clase_Modificar", "pEditar");
 $tabla->boton('btnExplorar', 'Explorar', 'clase', "MUI.Aplicacion_Framework_Clase_Explorar", "pBuscar");
 $tabla->columna('cClases', 'Clase', 'clase', 'string', '90', 'center', 'false');
-$tabla->columna('cDetalles', 'Detalles', 'detalles', 'string', '600', 'left', 'false');
-$tabla->columna('cFecha', 'Fecha', 'fecha', 'date', '70', 'center', 'false');
-$tabla->columna('cHora', 'Hora', 'hora', 'string', '55', 'center', 'false');
+$tabla->columna('cDetalles', 'Detalles', 'detalles', 'string', '700', 'left', 'false');
+$tabla->columna('cFecha', 'Fecha', 'fecha', 'date', '80', 'center', 'false');
+$tabla->columna('cHora', 'Hora', 'hora', 'string', '60', 'center', 'false');
 $tabla->generar();
 ?>

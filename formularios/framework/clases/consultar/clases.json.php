@@ -93,9 +93,10 @@ $sql = "SELECT * FROM `aplicacion_framework_clases` " . $buscar . " ORDER BY `no
 $consulta = $db->sql_query($sql);
 $dato= array();
 while ($fila = $db->sql_fetchrow($consulta)) {
+  $fila["tipo"]=($fila["tipo"]=="object")?"{object}":"({class})";
   $fila["clase"] = $fila['clase'];
   $fila['descripcion']=  strip_tags(urldecode($fila['descripcion']));
-  $fila["detalles"] = "<b>" . $fila['nombre'] . "</b>: <i>" . $cadenas->recortar($fila['descripcion'], "100") . " </i>";
+  $fila["detalles"] = "<b>" . $fila['nombre'] ."</b><i>". $fila["tipo"]."</i>: " . $cadenas->recortar($fila['descripcion'], "100") . " ";
   $fila["fecha"] = $fila["fecha"];
   $fila["hora"] = $fila["hora"];
   array_push($dato, $fila);

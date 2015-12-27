@@ -86,9 +86,9 @@ if (!empty($v['criterio']) && !empty($v['valor']) && $v['criterio'] != "estado")
 }
 
 $db = new MySQL();
-$consulta = $db->sql_query("SELECT * FROM `aplicacion_framework_funciones` " . $buscar . " ORDER BY `nombre` DESC;");
+$consulta = $db->sql_query("SELECT * FROM `aplicacion_framework_funciones` " . $buscar . " ORDER BY `nombre` ASC;");
 $total = $db->sql_numrows($consulta);
-$sql = "SELECT * FROM `aplicacion_framework_funciones` " . $buscar . " ORDER BY `nombre` DESC " . $limite;
+$sql = "SELECT * FROM `aplicacion_framework_funciones` " . $buscar . " ORDER BY `nombre` ASC " . $limite;
 
 $consulta = $db->sql_query($sql);
 $dato= array();

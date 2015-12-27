@@ -23,7 +23,7 @@ $p["creador"]=$usuario["usuario"];
 foreach ($p as $campo=>$valor){
   $ae->actualizar($p["estilo"],$campo,$valor);
 }
-//require_once($root . "modulos/aplicacion/formularios/framework/estilo/modificar/sincronizador.inc.php");
+require_once($root . "modulos/aplicacion/formularios/estilo/modificar/sincronizador.inc.php");
 /** JavaScripts **/
 $f->JavaScript("MUI.closeWindow($('" . ($f->ventana) . "'));");
 $f->JavaScript("if(".$itable."){".$itable.".refresh();}");

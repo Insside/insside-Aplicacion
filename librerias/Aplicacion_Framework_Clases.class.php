@@ -46,6 +46,7 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
       $db->sql_close();
       $this->actualizar($datos['clase'], 'implements', $datos['implements']);
       $this->actualizar($datos['clase'], 'extends', $datos['extends']);
+      $this->actualizar($datos['clase'], 'tipo', $datos['tipo']);
       $this->actualizar($datos['clase'], 'nombre', $datos['nombre']);
       $this->actualizar($datos['clase'], 'descripcion', $datos['descripcion']);
       $this->actualizar($datos['clase'], 'fecha', $datos['fecha']);
@@ -87,7 +88,7 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
       $sql = "SELECT * FROM `aplicacion_framework_funciones` WHERE `clase` ='" . $clase['clase'] . "' ORDER BY `nombre`;";
       $consulta = $db->sql_query($sql);
 
-      if (strpos($clase['nombre'], "MUI.") === false) {
+      if ($clase['tipo']=="class") {
         $js = "var " . $clase['nombre'] . "=new Class({\n";
       } else {
         $js = "" . $clase['nombre'] . "={\n";
@@ -117,8 +118,8 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
 //          $js.="}\n";
         $js.="\n},\n";
       }
-      $js.="version:function(){return('".$this->version($clase)."');}\n";
-      if (strpos($clase['nombre'], "MUI.") === false) {
+      $js.="version:function(){return('" . $this->version($clase) . "');}\n";
+      if ($clase['tipo']=="class") {
         $js.="});\n";
       } else {
         $js.="};\n";
@@ -134,10 +135,10 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
      * Retorna la version calculada de una clase
      * @param type $class
      */
-    function version($class){
+    function version($class) {
       return(0);
     }
-    
+
     /**
      * Retorna el numero total de clases existentes.
      * @param type $clase
@@ -150,6 +151,34 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
       $fila = $db->sql_fetchrow($consulta);
       $db->sql_close();
       return($fila["conteo"]);
+    }
+
+    function tipos($nombre, $seleccionado) {
+      $etiquetas = array("Clase", "Objeto");
+      $valores = array("class", "object");
+      return($this->select($nombre, $etiquetas, $valores, $seleccionado, ""));
+    }
+
+    /**
+     * Permite crear un combo <<select>> proporsionando directamente los datos de generación y los valores
+     * a listar, el formato apariencia del combo se define mediante CSS asignado por su <<id>>, el atributo <<class>> se adiciona para controlar validaciones
+     * en tiempo de ejecución, siendo una funcionalidad opcional y a criterio al momento de realizarse la implementación.
+     * @param type $nombre nombre del combo.
+     * @param type $name
+     * @param type $etiquetas
+     * @param type $valores
+     * @param type $selected
+     * @return type
+     */
+    function select($id, $etiquetas, $valores, $selected, $clase = "campo") {
+      if (empty($selected)) {
+        $selected = isset($_REQUEST['_' . $id]) ? $_REQUEST['_' . $id] : "";
+      }
+      $html = ('<select name="' . $id . '"id="' . $id . '"  class="' . $clase . '">');
+      for ($i = 0; $i < count($valores); $i++) {
+        $html.=('<option value="' . $valores[$i] . '"' . (($selected == $valores[$i]) ? "selected" : "") . '>' . $etiquetas[$i] . '</option>');
+      }$html.=("</select>");
+      return($html);
     }
 
   }

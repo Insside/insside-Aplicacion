@@ -36,7 +36,7 @@ $fechas = new Fechas();
     <h2 class="tagline">AGUAS DE BUGA <span class="taglineEm">S.A. E.S.P. 2015</span></h2>
     <div id="topNav">
       <ul class="menu-right">
-        <li>Bienvenido! <a href="#" onclick="MochaUI.notification('Do Something');
+        <li>Bienvenido! <a href="#" onclick="InssideUI.notification('Do Something');
             return false;"><?php echo($usuario['alias']); ?></a></li>
         <li><a href="<?php echo(basename(__FILE__)); ?>?accion=finalizar">Salir</a></li>
       </ul>
