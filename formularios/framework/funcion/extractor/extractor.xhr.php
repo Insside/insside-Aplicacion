@@ -1,5 +1,6 @@
 <?php
-
+$root = (!isset($root)) ? "../../../../../../" : $root;
+require_once($root . "modulos/aplicacion/librerias/Configuracion.cnf.php");
 /*
  * Copyright (c) 2014, Alexis
  * All rights reserved.
@@ -25,27 +26,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/** procesador.inc.php Codigo fuente archivo procesador * */
-$cadenas = new Cadenas();
-$fechas = new Fechas();
-$v = new Validaciones();
-$aff = new Aplicacion_Framework_Funciones();
-$itable = $v->recibir("itable");
-/** Campos Recibidos * */
-$p = array();
-$p['funcion'] = $v->recibir("funcion");
-$p['clase'] = $v->recibir("clase");
-$p['nombre'] = $v->recibir("nombre");
-$p['parametros'] = $v->recibir("parametros");
-$p['descripcion'] = urlencode($v->recibir("descripcion"));
-$p['fecha'] = $fechas->hoy();
-$p['hora'] = $fechas->ahora();
-$p['creador'] = $v->recibir("creador");
-foreach ($p as $campo => $valor) {
-  $aff->actualizar($p["funcion"], $campo, $valor);
+
+$validaciones=new Validaciones();
+$transaccion=$validaciones->recibir("transaccion");
+$trasmision = $validaciones->recibir("trasmision");
+$url['formulario']=$root . "modulos/aplicacion/formularios/framework/funcion/extractor/formulario.inc.php";
+$url['procesador']=$root . "modulos/aplicacion/formularios/framework/funcion/extractor/procesador.inc.php";
+
+$f = new Formularios($transaccion);
+echo($f->apertura());
+if (empty($trasmision)) {
+  require_once($url['formulario']);
+} else {
+  require_once($url['procesador']);
 }
-require_once($root."modulos/aplicacion/formularios/framework/funcion/modificar/sincronizador.inc.php");
-/** JavaScripts * */
-$f->JavaScript("MUI.closeWindow($('" . ($f->ventana) . "'));");
-$f->JavaScript("if(" . $itable . "){" . $itable . ".refresh();}");
+echo($f->generar());
+echo($f->controles());
+echo($f->cierre());
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * Copyright (c) 2014, Alexis
  * All rights reserved.
  *
@@ -25,27 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/** procesador.inc.php Codigo fuente archivo procesador * */
+/** procesador.inc.php Codigo fuente archivo procesador **/
+/** procesador.inc.php Codigo fuente archivo procesador **/
 $cadenas = new Cadenas();
 $fechas = new Fechas();
 $v = new Validaciones();
-$aff = new Aplicacion_Framework_Funciones();
-$itable = $v->recibir("itable");
-/** Campos Recibidos * */
-$p = array();
-$p['funcion'] = $v->recibir("funcion");
-$p['clase'] = $v->recibir("clase");
-$p['nombre'] = $v->recibir("nombre");
-$p['parametros'] = $v->recibir("parametros");
-$p['descripcion'] = urlencode($v->recibir("descripcion"));
-$p['fecha'] = $fechas->hoy();
-$p['hora'] = $fechas->ahora();
-$p['creador'] = $v->recibir("creador");
-foreach ($p as $campo => $valor) {
-  $aff->actualizar($p["funcion"], $campo, $valor);
-}
-require_once($root."modulos/aplicacion/formularios/framework/funcion/modificar/sincronizador.inc.php");
-/** JavaScripts * */
+
+/** Campos Recibidos **/
+$itable=$v->recibir("itable");
+$clase=$v->recibir("clase");
+$code=$v->recibir("codigo");
+/** Procesando los datos **/
+$separador=strpos(":", $code);
+$nombre=$cadenas->antesde(":",$code);
+$parametros=$cadenas->entre("(",")", $code);
+$contenido=$cadenas->entreelprimeryultimo("{","},", $code);
+//echo("<br>Nombre: ".$nombre."<br>");
+//echo("<br>Parametros: ".$parametros."<br>");
+//echo("<br>Contenido: ".$contenido."<br>");
+$funcion=array();
+$funcion['funcion']=$v->recibir("funcion");
+$funcion['nombre']=$nombre;
+$funcion['parametros']=$parametros;
+$funcion['descripcion']="";
+$funcion['clase']=$v->recibir("clase");
+$funcion['fecha']=$fechas->hoy();
+$funcion['hora']=$fechas->ahora();
+$funcion['creador']=$v->recibir("creador");
+$aff=new Aplicacion_Framework_Funciones();
+$aff->crear($funcion);
+/** Crear el codigo **/
+$codigo=array();
+$codigo['codigo']=time();
+$codigo['funcion']=$funcion['funcion'];
+$codigo['contenido']= urlencode(stripslashes($contenido));
+$codigo['descripcion']="";
+$codigo['version']="0.0";
+$codigo['fecha']=$fechas->hoy();
+$codigo['hora']=$fechas->ahora();
+$afc=new Aplicacion_Framework_Codigos();
+$afc->crear($codigo);
+require_once($root."modulos/aplicacion/formularios/framework/funcion/extractor/sincronizador.inc.php");
+/** JavaScripts **/
 $f->JavaScript("MUI.closeWindow($('" . ($f->ventana) . "'));");
-$f->JavaScript("if(" . $itable . "){" . $itable . ".refresh();}");
+$f->JavaScript("if(".$itable."){".$itable.".refresh();}");
 ?>

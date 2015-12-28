@@ -89,7 +89,11 @@ if (!class_exists('Aplicacion_Framework_Clases')) {
       $consulta = $db->sql_query($sql);
 
       if ($clase['tipo']=="class") {
-        $js = "var " . $clase['nombre'] . "=new Class({\n";
+        if(strpos($clase['nombre'], "MUI.") === false){
+          $js = "var " . $clase['nombre'] . "=new Class({\n";
+        }else{
+          $js = "" . $clase['nombre'] . "=new Class({\n";
+        }
       } else {
         $js = "" . $clase['nombre'] . "={\n";
       }

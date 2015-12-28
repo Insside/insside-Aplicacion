@@ -48,9 +48,10 @@ $v['url']="modulos/aplicacion/formularios/framework/funciones/consultar/consulta
 /** Creación de la tabla **/
 $tabla = new iTable(array("id" => time(), "url" => $v['url'],"perPageOptions"=>array(100,200)));
 $tabla->boton('btnCrear', 'Crear',array("indice"=>"","directo"=>$clase), "MUI.Aplicacion_Framework_Funcion_Crear", "pNuevo");
-$tabla->boton('btnExplorar', 'Explorar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Explorar", "pBuscar");
+$tabla->boton('btnExtraer', 'Procesar',array("indice"=>"","directo"=>$clase), "MUI.Aplicacion_Framework_Funcion_Procesador", "extraer");
+$tabla->boton('btnExplorar', 'Explorar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Explorar", "explorar");
 $tabla->boton('btnEliminar', 'Eliminar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Eliminar", "pEliminar");
-$tabla->boton('btnModificar', 'Modificar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Modificar", "pEditar");
+$tabla->boton('btnModificar', 'Modificar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Modificar", "editar");
 $tabla->columna('cFuncion', 'Funcion', 'funcion', 'string', '90', 'center', 'false');
 $tabla->columna('cDetalles', 'Detalles', 'detalles', 'string', '600', 'left', 'false');
 $tabla->columna('cFecha', 'Fecha', 'fecha', 'date', '70', 'center', 'false');

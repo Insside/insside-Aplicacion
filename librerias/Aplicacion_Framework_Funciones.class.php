@@ -9,17 +9,18 @@ if (!class_exists('Aplicacion_Framework_Funciones')) {
      * posteriormente sera cargada como componente de la interfaz grafica
      * @param type $datos
      */
-    function crear($datos = array()) {
+    function crear($datos) {
       $db = new MySQL();
       $sql = "INSERT INTO `aplicacion_framework_funciones` SET "
-              . "`funcion`='" . $datos["funcion"] . "',"
-              . "`nombre`='" . $datos["nombre"] . "',"
-              . "`parametros`='" . $datos["parametros"] . "',"
-              . "`descripcion`='" . $datos["descripcion"] . "',"
-              . "`clase`='" . $datos["clase"] . "',"
-              . "`fecha`='" . $datos["fecha"] . "',"
-              . "`hora`='" . $datos["hora"] . "',"
-              . "`creador`='" . $datos["creador"] . "';";
+              . "`funcion`='" . $datos['funcion'] . "',"
+              . "`nombre`='" . $datos['nombre'] . "',"
+              . "`parametros`='" . $datos['parametros'] . "',"
+              . "`descripcion`='" . $datos['descripcion'] . "',"
+              . "`clase`='" . $datos['clase'] . "',"
+              . "`fecha`='" . $datos['fecha'] . "',"
+              . "`hora`='" . $datos['hora'] . "',"
+              . "`creador`='" . $datos['creador'] . "'"
+              . ";";
       $db->sql_query($sql);
       $db->sql_close();
     }
@@ -51,6 +52,7 @@ if (!class_exists('Aplicacion_Framework_Funciones')) {
       $db->sql_close();
       return($fila);
     }
+
     /**
      * Retorna el numero total de funciones asociado a una clase especifica.
      * @param type $clase
