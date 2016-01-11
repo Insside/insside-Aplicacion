@@ -35,6 +35,7 @@ $itable = $v->recibir("itable");
 $p = array();
 $p['funcion'] = $v->recibir("funcion");
 $p['clase'] = $v->recibir("clase");
+$p['tipo'] = $v->recibir("tipo");
 $p['nombre'] = $v->recibir("nombre");
 $p['parametros'] = $v->recibir("parametros");
 $p['descripcion'] = urlencode($v->recibir("descripcion"));

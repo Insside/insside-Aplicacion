@@ -53,8 +53,8 @@ $tabla->boton('btnExplorar', 'Explorar', 'funcion', "MUI.Aplicacion_Framework_Fu
 $tabla->boton('btnEliminar', 'Eliminar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Eliminar", "pEliminar");
 $tabla->boton('btnModificar', 'Modificar', 'funcion', "MUI.Aplicacion_Framework_Funcion_Modificar", "editar");
 $tabla->columna('cFuncion', 'Funcion', 'funcion', 'string', '90', 'center', 'false');
-$tabla->columna('cDetalles', 'Detalles', 'detalles', 'string', '600', 'left', 'false');
-$tabla->columna('cFecha', 'Fecha', 'fecha', 'date', '70', 'center', 'false');
-$tabla->columna('cHora', 'Hora', 'hora', 'string', '55', 'center', 'false');
+$tabla->columna('cDetalles', 'Detalles', 'detalles', 'string', '640', 'left', 'false');
+$tabla->columna('cFecha', 'Fecha', 'fecha', 'date', '90', 'center', 'false');
+$tabla->columna('cHora', 'Hora', 'hora', 'string', '80', 'center', 'false');
 $tabla->generar();
 ?>

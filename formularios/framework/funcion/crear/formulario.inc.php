@@ -47,6 +47,7 @@ $valores['creador']=$usuario['usuario'];
 $f->oculto("itable",$validaciones->recibir("itable"));
 $f->campos['clase']=$f->text("clase",$valores['clase'],"10","required codigo",true);
 $f->campos['funcion']=$f->text("funcion",$valores['funcion'],"10","required codigo",true);
+$f->campos['tipo']=$f->dynamic(array("field"=>"tipo"));
 $f->campos['nombre']=$f->text("nombre",$valores['nombre'],"255","",false);
 $f->campos['parametros']=$f->text("parametros",$valores['parametros'],"255","",false);
 $f->campos['descripcion']=$f->textarea("descripcion", $valores['descripcion'], "h150 p10", "1000", "", false);
@@ -62,12 +63,13 @@ $f->celdas["nombre"]=$f->celda("Nombre de la Función:",$f->campos['nombre']);
 $f->celdas["parametros"]=$f->celda("Parametros Trasferibles:",$f->campos['parametros']);
 $f->celdas["descripcion"]=$f->celda("Descripcion de Aplicación & Uso:",$f->campos['descripcion']);
 $f->celdas["clase"]=$f->celda("Clase:",$f->campos['clase']);
+$f->celdas["tipo"]=$f->celda("Tipo:",$f->campos['tipo']);
 $f->celdas["fecha"]=$f->celda("Fecha:",$f->campos['fecha']);
 $f->celdas["hora"]=$f->celda("Hora:",$f->campos['hora']);
 $f->celdas["creador"]=$f->celda("Creador:",$f->campos['creador']);
 /** Filas **/
 $f->fila["fila1"]=$f->fila($f->celdas["funcion"].$f->celdas["clase"].$f->celdas["fecha"].$f->celdas["hora"].$f->celdas["creador"]);
-$f->fila["fila2"]=$f->fila($f->celdas["nombre"].$f->celdas["parametros"]);
+$f->fila["fila2"]=$f->fila($f->celdas["nombre"].$f->celdas["parametros"].$f->celdas["tipo"]);
 $f->fila["fila3"]=$f->fila($f->celdas["descripcion"]);
 /** Compilando **/
 $f->filas($f->fila['fila1']);

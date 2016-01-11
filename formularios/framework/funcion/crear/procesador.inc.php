@@ -38,6 +38,7 @@ $datos['nombre']=$v->recibir("nombre");
 $datos['parametros']=$v->recibir("parametros");
 $datos['descripcion']=$v->recibir("descripcion");
 $datos['clase']=$v->recibir("clase");
+$datos['tipo']=$v->recibir("tipo");
 $datos['fecha']=$v->recibir("fecha");
 $datos['hora']=$v->recibir("hora");
 $datos['creador']=$v->recibir("creador");

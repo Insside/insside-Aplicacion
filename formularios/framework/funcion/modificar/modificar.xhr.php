@@ -34,6 +34,7 @@ $url['formulario']=$root . "modulos/aplicacion/formularios/framework/funcion/mod
 $url['procesador']=$root . "modulos/aplicacion/formularios/framework/funcion/modificar/procesador.inc.php";
 
 $f = new Formularios($transaccion);
+$f->setTable("aplicacion_framework_funciones");
 echo($f->apertura());
 if (empty($trasmision)) {
   require_once($url['formulario']);
