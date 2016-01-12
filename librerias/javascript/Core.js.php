@@ -751,7 +751,7 @@ Object.append(MUI, {
       closeAfter: 1500,
       type: 'notification',
       addClass: 'notification',
-      content: message,
+      content:message,
       width: 220,
       height: 40,
       y: 53,

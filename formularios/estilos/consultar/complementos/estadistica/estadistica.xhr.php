@@ -1,56 +1,14 @@
 <?php
 $root = (!isset($root)) ? "../../../../../../../" : $root;
 require_once($root . "modulos/usuarios/librerias/Configuracion.cnf.php");
-/*
- * Este archivo XHR retorna las estadisticas asociadas a las solicitudes procesadas por un usuario
- * del sistema las cuales a saber estan distribuidas como recibidas, procesadas y pendientes.
- * La información se proporsiona en cifras y prorcentajes exactos. 
- * 
- * Copyright (c) 2015, Jose Alexis Correa Valencia
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * * Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-/** Clases **/
-$sesion=new Sesion();
-$validaciones=new Validaciones();
-$usuarios=new Usuarios();
-/** Variables **/
-$t=$usuarios->conteo();
-?>
+$ae=new Aplicacion_Estilos();
 
-<h2>Usuarios Registrados</h2>
-<p class="critico"><?php echo($t); ?></p>
-<div class="porcentual"><a href="#" onClick="#">TOTAL 100%</a> </div>
-<br>
-<p>  
-    El Sistema Integral de Administración Informática(IMIS) se estructura en una gerarquia de permisos 
-    fundamentada en el concepto de "Rol" término conocido por todos aquellos que hayan trabajado con 
-    los sistemas de permisos de las bases de datos y cuyo funcionamiento es muy parecido.
-</p>
-<hr>
-<p>
-  Para mayor información y referencia técnica visite:
-  <a href="http://www.insside.com/plataforma/imis/usuarios/roles.html" target="_blank">
-    Insside / Imis / Usuarios / Roles
-  </a>
-</p>
+$complemento="complemento".time();
+echo("<div id=\"".$complemento."\"></div>");
+echo("<script>");
+$title="<b>Estilos Definidos</b>";
+$number=$ae->conteo();
+$total=$ae->conteo();
+echo("new MUI.Score('$complemento',{'title':'$title','number':'$number','total':'$total'});");
+echo("</script>");
+?>

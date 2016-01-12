@@ -94,7 +94,8 @@ $consulta = $db->sql_query($sql);
 $dato= array();
 while ($fila = $db->sql_fetchrow($consulta)) {
   $fila["clase"] = $fila['clase'];
-  $fila["detalles"] = "<b>" . $fila['nombre'] . "(</b><i>".$fila['parametros']."<b></i>)</b>: <i>" . $cadenas->recortar(urldecode($fila['descripcion']), "100") . " </i>";
+  $fila['descripcion']=strip_tags(urldecode($fila['descripcion']));
+  $fila["detalles"] = "<b>" . $fila['nombre'] . "(</b><i>".$fila['parametros']."<b></i>)</b>: <i>" . $cadenas->recortar($fila['descripcion'], "100") . " </i>";
   $fila["fecha"] = $fila["fecha"];
   $fila["hora"] = $fila["hora"];
   array_push($dato, $fila);

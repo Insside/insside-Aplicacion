@@ -37,11 +37,11 @@ $valores['creador']=$usuario['usuario'];
 /** Campos **/
 $f->oculto("itable",$validaciones->recibir('itable'));
 $f->campos['clase']=$f->text("clase",$valores['clase'],"10","required codigo",true);
-$f->campos['tipo']=$f->dynamic(array("field"=>"tipo"));
 $f->campos['funcion']=$f->text("funcion",$valores['funcion'],"10","required codigo",true);
-$f->campos['nombre']=$f->text("nombre",$valores['nombre'],"255","",false);
-$f->campos['parametros']=$f->text("parametros",$valores['parametros'],"255","",false);
-$f->campos['descripcion']=$f->textarea("descripcion", urldecode($valores['descripcion']), "h150 p10", "1000", "", false);
+$f->campos['nombre']=$f->dynamic(array("field"=>"nombre","value"=>$valores["nombre"]));
+$f->campos['parametros']=$f->dynamic(array("field"=>"parametros","value"=>$valores["parametros"]));
+$f->campos['tipo']=$f->dynamic(array("field"=>"tipo","value"=>$valores["tipo"]));
+$f->campos['descripcion']=$f->dynamic(array("field"=>"descripcion","value"=>urldecode($valores["descripcion"]),"class"=>"h250"));
 $f->campos['fecha']=$f->text("fecha",$valores['fecha'],"10","required automatico",true);
 $f->campos['hora']=$f->text("hora",$valores['hora'],"8","required automatico",true);
 $f->campos['creador']=$f->text("creador",$valores['creador'],"10","required automatico",true);
@@ -50,11 +50,11 @@ $f->campos['cancelar']=$f->button("cancelar".$f->id, "button","Cancelar");
 $f->campos['continuar']=$f->button("continuar".$f->id, "submit","Continuar");
 /** Celdas **/
 $f->celdas["funcion"]=$f->celda("Código Función:",$f->campos['funcion']);
-$f->celdas["nombre"]=$f->celda("Nombre de la Función:",$f->campos['nombre']);
-$f->celdas["parametros"]=$f->celda("Parametros Trasferibles:",$f->campos['parametros']);
+$f->celdas["nombre"]=$f->celda("Nombre de la Función:",$f->campos['nombre'],"","w30p");
+$f->celdas["parametros"]=$f->celda("Parametros Trasferibles:",$f->campos['parametros'],"","w40p");
+$f->celdas["tipo"]=$f->celda("Tipo:",$f->campos['tipo'],"","w30p");
 $f->celdas["descripcion"]=$f->celda("Descripcion de Aplicación & Uso:",$f->campos['descripcion']);
 $f->celdas["clase"]=$f->celda("Clase:",$f->campos['clase']);
-$f->celdas["tipo"]=$f->celda("Tipo:",$f->campos['tipo']);
 $f->celdas["fecha"]=$f->celda("Fecha:",$f->campos['fecha']);
 $f->celdas["hora"]=$f->celda("Hora:",$f->campos['hora']);
 $f->celdas["creador"]=$f->celda("Creador:",$f->campos['creador']);
@@ -72,7 +72,7 @@ $f->botones($f->campos['cancelar'], "inferior-derecha");
 $f->botones($f->campos['continuar'], "inferior-derecha");
 /** JavaScripts **/
 $f->JavaScript("MUI.titleWindow($('".($f->ventana)."'),\"Actualizar Función ".$valores['funcion']."\");");
-$f->JavaScript("MUI.resizeWindow($('".($f->ventana)."'),{width: 640,height:300});");
+$f->JavaScript("MUI.resizeWindow($('".($f->ventana)."'),{width: 750,height:450});");
 $f->JavaScript("MUI.centerWindow($('".$f->ventana."'));");
 $f->eClick("cancelar".$f->id,"MUI.closeWindow($('".$f->ventana."'));");
 

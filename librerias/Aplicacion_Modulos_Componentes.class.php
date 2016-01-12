@@ -78,6 +78,7 @@ class Aplicacion_Modulos_Componentes {
     $sql.="`creador` = '" .$datos['creador']. "';";
     $consulta = $db->sql_query($sql);
     $db->sql_close();
+    if(isset($_REQUEST["debug"])){echo("<div style=\"font-size:12px;line-height:11px;\">".$sql."</div>");}
     return($consulta);
   }
   
@@ -88,6 +89,7 @@ class Aplicacion_Modulos_Componentes {
     $sql = "UPDATE `aplicacion_modulos_componentes` SET `" . $campo . "`='" . $valor . "' WHERE `componente`='" . $componente . "';";
     $consulta = $db->sql_query($sql);
     $db->sql_close();
+    if(isset($_REQUEST["debug"])){echo("<div style=\"font-size:12px;line-height:11px;\">".$sql."</div>");}
     return($consulta);
   }
 

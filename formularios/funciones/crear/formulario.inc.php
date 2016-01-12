@@ -2,9 +2,11 @@
 $root=(!isset($root))?"../../../../":$root;
 require_once($root."modulos/aplicacion/librerias/Configuracion.cnf.php");
 $modulos = new Aplicacion_Modulos();
+$v=new Validaciones();
 
 $html = "<h1>Adjuntar Archivo del Proveedor.</h1>";
 $html.="<p>En este formulario podrá adjuntar los archivos de la digitalización de los diferentes documentos físicos solicitados a los proveedores. Para adjuntar un documento deberá hacer clic en Adjuntar archivo local-Examinar. Recuerde que “no debe tener el archivo abierto” cuando lo vaya a adjuntar y debe verificar que el archivo esté guardado con un nombre “corto”.</p>";
+$f->oculto("itable",$v->recibir("itable"));
 $f->campos['modulo']=$modulos->combo("modulo","");
 $f->campos['nombre'] = $f->text("nombre", "", 64, "required");
 $f->campos['parametros'] = $f->text("parametros", "", 160, "");

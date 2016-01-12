@@ -87,6 +87,14 @@ if (!class_exists('Aplicacion_Estilos')) {
       return($fila);
     }
 
+    function conteo($sql = "") {
+      $db = new MySQL();
+      $sql = "SELECT Count(`estilo`) AS `conteo` FROM `aplicacion_estilos` " . $sql . ";";
+      $consulta = $db->sql_query($sql);
+      $fila = $db->sql_fetchrow($consulta);
+      return(intval($fila['conteo']));
+    }
+
   }
 
 }

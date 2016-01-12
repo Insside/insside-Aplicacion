@@ -15,9 +15,10 @@ $fechas = new Fechas();
     <!-- Reloj //-->
     <div class="reloj">
       <div class="etiqueta">FECHA & HORA</div>
-      <div id="diviClock" class="iclock">08:00</div>
+      <div id="divLocalClock" class="MUI clock">08:00</div>
       <div class="etiqueta"><?php echo($fechas->hoy()); ?></div>
     </div>
+ 
     <!-- Usuario //-->
     <div class="perfil">
       <a href="#" onclick="MUI.Aplicacion_Opciones('<?php echo($usuario["usuario"]); ?>');">
@@ -28,6 +29,12 @@ $fechas = new Fechas();
       </a>
     </div>
     <!-- Usuario //-->
+       <!-- Conector //-->
+    <div class="reloj_remoto">
+      <div class="etiqueta">ULTIMA CONEXIÓN  </div>
+      <div id="divRemoteClock" class="MUI Clock">08:00</div>
+      <div class="etiqueta"><?php echo($fechas->hoy()); ?></div>
+    </div>
 
 
 
@@ -48,5 +55,6 @@ $fechas = new Fechas();
 </div>
 <!-- JavaScript v0.1 //-->
 <script type="text/javascript">
-  var c = new iClock($("diviClock"), {});
+  var localClock = new MUI.Clock($("divLocalClock"), {});
+  var remoteClock= new MUI.Clock($("divRemoteClock"), {});
 </script>

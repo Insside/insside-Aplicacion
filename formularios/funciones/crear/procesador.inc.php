@@ -5,8 +5,9 @@ require_once($root . "librerias/soap/nusoap.php");
 $log = "";
 $configuraciones = new Configuraciones();
 $validaciones = new Validaciones();
-$funciones = new Funciones();
+$funciones = new Funciones(); 
 
+$itable = $validaciones->recibir('itable');
 $modulo = $validaciones->recibir('modulo');
 $nombre = $validaciones->recibir('nombre');
 $parametros = $validaciones->recibir('parametros');
@@ -31,6 +32,6 @@ if ($configuraciones->modo == "desarrollo") {
 }
 /** JavaScripts * */
 $f->JavaScript("console.log('" . $log . "');");
-$f->JavaScript("if(itable){itable.refresh();}");
+$f->JavaScript("if(".$itable."){".$itable.".refresh();}");
 $f->JavaScript("MUI.closeWindow($('" . ($f->ventana) . "'));");
 ?>
